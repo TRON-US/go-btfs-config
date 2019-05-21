@@ -49,8 +49,8 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 
 		// setup the node mount points.
 		Mounts: Mounts{
-			IPFS: "/ipfs",
-			IPNS: "/ipns",
+			IPFS: "/btfs",
+			IPNS: "/btns",
 		},
 
 		Ipns: Ipns{
