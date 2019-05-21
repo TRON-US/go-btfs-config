@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/mitchellh/go-homedir"
 )
 
 // Config is used to load ipfs config files.
