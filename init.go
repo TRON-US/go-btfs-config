@@ -2,17 +2,18 @@ package config
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
 	"time"
 
-	ci "github.com/libp2p/go-libp2p-crypto"
-	peer "github.com/libp2p/go-libp2p-peer"
+	ci "github.com/libp2p/go-libp2p-core/crypto"
+	peer "github.com/libp2p/go-libp2p-core/peer"
 )
 
-func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
-	identity, err := identityConfig(out, nBitsForKeypair)
+func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string) (*Config, error) {
+	identity, err := identityConfig(out, nBitsForKeypair, keyType, importKey)
 	if err != nil {
 		return nil, err
 	}
@@ -149,15 +150,45 @@ func DefaultDatastoreConfig() Datastore {
 }
 
 // identityConfig initializes a new identity.
-func identityConfig(out io.Writer, nbits int) (Identity, error) {
+func identityConfig(out io.Writer, nbits int, keyType string, importKey string) (Identity, error) {
 	// TODO guard higher up
 	ident := Identity{}
-	if nbits < 1024 {
-		return ident, errors.New("bitsize less than 1024 is considered unsafe")
+
+	var sk ci.PrivKey
+	var pk ci.PubKey
+	var err error
+	if importKey == "" {
+		if nbits < 1024 {
+			return ident, errors.New("bitsize less than 1024 is considered unsafe")
+		}
+
+		var key int
+
+		switch keyType {
+		case "RSA":
+			key = ci.RSA
+		case "Ed25519":
+			key = ci.Ed25519
+		case "Secp256k1":
+			key = ci.Secp256k1
+		case "ECDSA":
+			key = ci.ECDSA
+		default:
+			key = ci.ECDSA
+		}
+
+		fmt.Fprintf(out, "generating %v-bit %s keypair...", nbits, keyType)
+		sk, pk, err = ci.GenerateKeyPair(key, nbits)
+	} else {
+		fmt.Fprintf(out, "generating btfs node keypair with TRON key...")
+		skBytes, err := hex.DecodeString(importKey)
+		if err != nil {
+			return ident, errors.New("cannot decode importKey from a string to byte array")
+		}
+		sk, err = ci.UnmarshalSecp256k1PrivateKey(skBytes)
+		pk = sk.GetPublic()
 	}
 
-	fmt.Fprintf(out, "generating %v-bit RSA keypair...", nbits)
-	sk, pk, err := ci.GenerateKeyPair(ci.RSA, nbits)
 	if err != nil {
 		return ident, err
 	}
