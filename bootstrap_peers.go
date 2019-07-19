@@ -16,19 +16,19 @@ import (
 // for IPFS. they are nodes run by the IPFS team. docs on these later.
 // As with all p2p networks, bootstrap is an important security concern.
 //
-// NOTE: This is here -- and not inside cmd/ipfs/init.go -- because of an
+// NOTE: This is here -- and not inside cmd/btfs/init.go -- because of an
 // import dependency issue. TODO: move this into a config/default/ package.
 var DefaultBootstrapAddresses = []string{
-	"/ip4/18.237.54.123/tcp/4001/ipfs/QmWJWGxKKaqZUW4xga2BCzT5FBtYDL8Cc5Q5jywd6xPt1g",
-	"/ip4/54.213.128.120/tcp/4001/ipfs/QmWm3vBCRuZcJMUT9jDZysoYBb66aokmSReX26UaMk8qq5",
-	"/ip4/34.213.5.20/tcp/4001/ipfs/QmQVQBsM7uoJy8hATjTm51uSAkx2y3iGLhSwA6LWLa7iQJ",
-	"/ip4/18.237.202.91/tcp/4001/ipfs/QmbVFdiNkvxtc7Nni7yBWAgtHg8MuyhaZ5mDaYR2ZrhhvN",
-	"/ip4/13.229.45.41/tcp/4001/ipfs/QmX7RZXh27AX8iv2BKLGMgPBiuUpEy8p4LFXgtXAfaZDn9",
-	"/ip4/54.254.227.188/tcp/4001/ipfs/QmYqCq3PasrzLr3PxtLo5D6spEAJ836W9Re9Eo4zUou45U",
-	"/ip4/52.77.240.134/tcp/4001/ipfs/QmURPwdLYesWUDB66EGXvDvwcyV44rVRqV2iGNqKN24eVu",
-	"/ip4/3.120.224.94/tcp/4001/ipfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
-	"/ip4/18.194.71.27/tcp/4001/ipfs/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
-	"/ip4/54.93.47.134/tcp/4001/ipfs/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
+	"/ip4/18.237.54.123/tcp/4001/btfs/QmWJWGxKKaqZUW4xga2BCzT5FBtYDL8Cc5Q5jywd6xPt1g",
+	"/ip4/54.213.128.120/tcp/4001/btfs/QmWm3vBCRuZcJMUT9jDZysoYBb66aokmSReX26UaMk8qq5",
+	"/ip4/34.213.5.20/tcp/4001/btfs/QmQVQBsM7uoJy8hATjTm51uSAkx2y3iGLhSwA6LWLa7iQJ",
+	"/ip4/18.237.202.91/tcp/4001/btfs/QmbVFdiNkvxtc7Nni7yBWAgtHg8MuyhaZ5mDaYR2ZrhhvN",
+	"/ip4/13.229.45.41/tcp/4001/btfs/QmX7RZXh27AX8iv2BKLGMgPBiuUpEy8p4LFXgtXAfaZDn9",
+	"/ip4/54.254.227.188/tcp/4001/btfs/QmYqCq3PasrzLr3PxtLo5D6spEAJ836W9Re9Eo4zUou45U",
+	"/ip4/52.77.240.134/tcp/4001/btfs/QmURPwdLYesWUDB66EGXvDvwcyV44rVRqV2iGNqKN24eVu",
+	"/ip4/3.120.224.94/tcp/4001/btfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
+	"/ip4/18.194.71.27/tcp/4001/btfs/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
+	"/ip4/54.93.47.134/tcp/4001/btfs/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
 }
 
 // ErrInvalidPeerAddr signals an address is not a valid peer address.
@@ -40,12 +40,12 @@ func (c *Config) BootstrapPeers() ([]peer.AddrInfo, error) {
 
 // DefaultBootstrapPeers returns the (parsed) set of default bootstrap peers.
 // if it fails, it returns a meaningful error for the user.
-// This is here (and not inside cmd/ipfs/init) because of module dependency problems.
+// This is here (and not inside cmd/btfs/init) because of module dependency problems.
 func DefaultBootstrapPeers() ([]peer.AddrInfo, error) {
 	ps, err := ParseBootstrapPeers(DefaultBootstrapAddresses)
 	if err != nil {
 		return nil, fmt.Errorf(`failed to parse hardcoded bootstrap peers: %s
-This is a problem with the ipfs codebase. Please report it to the dev team.`, err)
+This is a problem with the btfs codebase. Please report it to the dev team.`, err)
 	}
 	return ps, nil
 }
