@@ -174,7 +174,7 @@ func identityConfig(out io.Writer, nbits int, keyType string, importKey string) 
 		case "ECDSA":
 			key = ci.ECDSA
 		default:
-			key = ci.ECDSA
+			key = ci.Secp256k1
 		}
 
 		fmt.Fprintf(out, "generating %v-bit %s keypair...", nbits, keyType)
