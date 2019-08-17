@@ -3,6 +3,8 @@ package config
 import (
 	"fmt"
 	"net"
+	"net/http"
+	"io/ioutil"
 	"time"
 )
 
@@ -42,6 +44,26 @@ var defaultServerFilters = []string{
 	"/ip6/2001:db8::/ipcidr/32",
 	"/ip6/fc00::/ipcidr/7",
 	"/ip6/fe80::/ipcidr/10",
+}
+
+func ExternalIP() (string, error) {
+        resp, err := http.Get("http://checkip.amazonaws.com")
+        if err != nil {
+                fmt.Println("get external IP failed")
+                return "", err
+        }
+        defer resp.Body.Close()
+        body, err := ioutil.ReadAll(resp.Body)
+        if err != nil {
+                fmt.Println("parse external IP failed")
+                return "", err
+        }
+        ip := string(body)
+        // remove last return
+        ip = ip[:len(ip)-1]
+        address := "/ip4/" + ip
+        address += "/tcp/4001"
+        return address, nil
 }
 
 // Profiles is a map holding configuration transformers. Docs are in docs/config.md
@@ -104,6 +126,17 @@ Inverse profile of the test profile.`,
 
 			c.Swarm.DisableNatPortMap = false
 			c.Discovery.MDNS.Enabled = true
+			return nil
+		},
+	},
+	"announce-public": {
+		Description: `Announce public IP when running on cloud VM or local network.`,
+		Transform: func(c *Config) error {
+			address, err := ExternalIP()
+			if err != nil {
+				return err
+			}
+			c.Addresses.Announce = appendSingle(c.Addresses.Announce, []string{address})
 			return nil
 		},
 	},
