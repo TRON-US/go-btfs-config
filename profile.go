@@ -226,6 +226,7 @@ fetching may be degraded.
 			c.Experimental.StorageHostEnabled = true
 			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			// TODO: Set host-specific values
+			return nil
 		},
 	},
 	"storage-client": {
@@ -236,6 +237,7 @@ fetching may be degraded.
 			c.Experimental.StorageClientEnabled = true
 			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			// TODO: Set client-specific values
+			return nil
 		},
 	},
 }
