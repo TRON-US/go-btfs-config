@@ -9,5 +9,6 @@ type Experiments struct {
 	QUIC                 bool
 	PreferTLS            bool
 	StrategicProviding   bool
-	StorageRemoteAPI     bool
+	StorageHostEnabled   bool
+	StorageClientEnabled bool
 }

@@ -2,9 +2,9 @@ package config
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net"
 	"net/http"
-	"io/ioutil"
 	"time"
 )
 
@@ -47,23 +47,23 @@ var defaultServerFilters = []string{
 }
 
 func ExternalIP() (string, error) {
-        resp, err := http.Get("http://checkip.amazonaws.com")
-        if err != nil {
-                fmt.Println("get external IP failed")
-                return "", err
-        }
-        defer resp.Body.Close()
-        body, err := ioutil.ReadAll(resp.Body)
-        if err != nil {
-                fmt.Println("parse external IP failed")
-                return "", err
-        }
-        ip := string(body)
-        // remove last return
-        ip = ip[:len(ip)-1]
-        address := "/ip4/" + ip
-        address += "/tcp/4001"
-        return address, nil
+	resp, err := http.Get("http://checkip.amazonaws.com")
+	if err != nil {
+		fmt.Println("get external IP failed")
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("parse external IP failed")
+		return "", err
+	}
+	ip := string(body)
+	// remove last return
+	ip = ip[:len(ip)-1]
+	address := "/ip4/" + ip
+	address += "/tcp/4001"
+	return address, nil
 }
 
 // Profiles is a map holding configuration transformers. Docs are in docs/config.md
@@ -216,6 +216,26 @@ fetching may be degraded.
 				fmt.Sprintf("/ip6/::/tcp/%d", port),
 			}
 			return nil
+		},
+	},
+	"storage-host": {
+		Description: `Configures necessary flags and options for node to become a storage host.`,
+
+		Transform: func(c *Config) error {
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.StorageHostEnabled = true
+			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			// TODO: Set host-specific values
+		},
+	},
+	"storage-client": {
+		Description: `Configures necessary flags and options for node to pay to store files on the network.`,
+
+		Transform: func(c *Config) error {
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.StorageClientEnabled = true
+			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			// TODO: Set client-specific values
 		},
 	},
 }
