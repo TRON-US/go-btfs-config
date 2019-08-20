@@ -11,4 +11,6 @@ type Experiments struct {
 	StrategicProviding   bool
 	StorageHostEnabled   bool
 	StorageClientEnabled bool
+	Analytics            bool
+	RemoveOnUnpin        bool
 }

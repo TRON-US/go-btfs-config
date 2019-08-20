@@ -12,7 +12,7 @@ import (
 	peer "github.com/libp2p/go-libp2p-core/peer"
 )
 
-func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string) (*Config, error) {
+func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, rmOnUnpin bool) (*Config, error) {
 	identity, err := identityConfig(out, nBitsForKeypair, keyType, importKey)
 	if err != nil {
 		return nil, err
@@ -81,6 +81,9 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string) 
 				GracePeriod: DefaultConnMgrGracePeriod.String(),
 				Type:        "basic",
 			},
+		},
+		Experimental: Experiments{
+			RemoveOnUnpin: rmOnUnpin,
 		},
 	}
 
