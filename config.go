@@ -27,9 +27,10 @@ type Config struct {
 	Swarm     SwarmConfig
 	Pubsub    PubsubConfig
 
-	Provider     Provider
-	Reprovider   Reprovider
-	Experimental Experiments
+	Provider           Provider
+	Reprovider         Reprovider
+	StatusServerDomain string
+	Experimental       Experiments
 }
 
 const (

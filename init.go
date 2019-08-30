@@ -70,6 +70,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			},
 			APICommands: []string{},
 		},
+		StatusServerDomain: "https://db.btfs.io",
 		Reprovider: Reprovider{
 			Interval: "12h",
 			Strategy: "all",
