@@ -13,6 +13,6 @@ type Experiments struct {
 	StorageClientEnabled bool
 	Analytics            bool
 	RemoveOnUnpin        bool
-	HostSyncEnabled      bool
-	HostSyncMode         string
+	HostsSyncEnabled     bool
+	HostsSyncMode        string
 }
