@@ -84,12 +84,22 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			},
 		},
 		Experimental: Experiments{
-			RemoveOnUnpin: rmOnUnpin,
+			RemoveOnUnpin:    rmOnUnpin,
+			HostsSyncEnabled: DefaultHostsSyncEnabled,
+			HostsSyncMode:    DefaultHostsSyncMode,
 		},
 	}
 
 	return conf, nil
 }
+
+// DefaultHostSyncEnabled is the default value for the periodic hosts sync
+// from hub
+const DefaultHostsSyncEnabled = true
+
+// DefaultHostsSyncMode is the default value for the hosts sync mode
+// from hub
+const DefaultHostsSyncMode = "score"
 
 // DefaultConnMgrHighWater is the default value for the connection managers
 // 'high water' mark
