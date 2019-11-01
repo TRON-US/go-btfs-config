@@ -84,9 +84,10 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			},
 		},
 		Experimental: Experiments{
-			RemoveOnUnpin:    rmOnUnpin,
-			HostsSyncEnabled: DefaultHostsSyncEnabled,
-			HostsSyncMode:    DefaultHostsSyncMode,
+			Libp2pStreamMounting: true, // Enabled for remote api
+			RemoveOnUnpin:        rmOnUnpin,
+			HostsSyncEnabled:     DefaultHostsSyncEnabled,
+			HostsSyncMode:        DefaultHostsSyncMode,
 		},
 	}
 
