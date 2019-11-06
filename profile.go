@@ -235,6 +235,8 @@ fetching may be degraded.
 		Transform: func(c *Config) error {
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
+			c.Experimental.HostsSyncEnabled = true
+			c.Experimental.HostsSyncMode = DefaultHostsSyncMode
 			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			// TODO: Set client-specific values
 			return nil
