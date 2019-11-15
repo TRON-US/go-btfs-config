@@ -5,4 +5,7 @@ type Services struct {
 	HubDomain          string
 	EscrowDomain       string
 	GuardDomain        string
+
+	EscrowPubKeys []string
+	GuardPubKeys  []string
 }

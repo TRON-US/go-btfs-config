@@ -172,6 +172,8 @@ func DefaultServicesConfig() Services {
 		HubDomain:          "https://hub.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
+		EscrowPubKeys:      []string{}, // TODO: TBD
+		GuardPubKeys:       []string{}, // TODO: TBD
 	}
 }
 
