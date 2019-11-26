@@ -168,7 +168,7 @@ func DefaultDatastoreConfig() Datastore {
 // DefaultServicesConfig returns the default set of configs for external services.
 func DefaultServicesConfig() Services {
 	return Services{
-		StatusServerDomain: "https://db.btfs.io", // TODO: future -> status.btfs.io
+		StatusServerDomain: "https://status.btfs.io",
 		HubDomain:          "https://hub.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
