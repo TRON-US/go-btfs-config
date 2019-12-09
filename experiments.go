@@ -10,7 +10,6 @@ type Experiments struct {
 	PreferTLS            bool
 	StrategicProviding   bool
 	StorageHostEnabled   bool
-	StoragePrice         float64
 	StorageClientEnabled bool
 	Analytics            bool
 	RemoveOnUnpin        bool
