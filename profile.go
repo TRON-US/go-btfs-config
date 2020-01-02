@@ -224,8 +224,29 @@ fetching may be degraded.
 		Transform: func(c *Config) error {
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
-			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
-			// TODO: Set host-specific values
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			if c.Datastore.StorageMax == "10GB" {
+				c.Datastore.StorageMax = "1TB"
+			}
+			c.Services = DefaultServicesConfig()
+			return nil
+		},
+	},
+	"storage-host-dev": {
+		Description: `[dev] Configures necessary flags and options for node to become a storage host.`,
+
+		Transform: func(c *Config) error {
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.StorageHostEnabled = true
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			if c.Datastore.StorageMax == "10GB" {
+				c.Datastore.StorageMax = "1TB"
+			}
+			c.Services = DefaultServicesConfigDev()
 			return nil
 		},
 	},
@@ -237,8 +258,25 @@ fetching may be degraded.
 			c.Experimental.StorageClientEnabled = true
 			c.Experimental.HostsSyncEnabled = true
 			c.Experimental.HostsSyncMode = DefaultHostsSyncMode
-			c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
-			// TODO: Set client-specific values
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			c.Services = DefaultServicesConfig()
+			return nil
+		},
+	},
+	"storage-client-dev": {
+		Description: `[dev] Configures necessary flags and options for node to pay to store files on the network.`,
+
+		Transform: func(c *Config) error {
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.StorageClientEnabled = true
+			c.Experimental.HostsSyncEnabled = true
+			c.Experimental.HostsSyncMode = DefaultHostsSyncMode
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			c.Services = DefaultServicesConfigDev()
 			return nil
 		},
 	},

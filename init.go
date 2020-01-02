@@ -172,8 +172,20 @@ func DefaultServicesConfig() Services {
 		HubDomain:          "https://hub.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
-		EscrowPubKeys:      []string{}, // TODO: TBD
-		GuardPubKeys:       []string{}, // TODO: TBD
+		EscrowPubKeys:      []string{"CAISIQPAfB2Mt2ic+n3JcL4vrKXxBCmB0iNh+5BYiXdJNWed/Q=="},
+		GuardPubKeys:       []string{"CAISIQJ16EiwvGko4SaBEEUFyMdNZp1vKsTLgIXCY6fRa3/Obg=="},
+	}
+}
+
+// DefaultServicesConfigDev returns the default set of configs for dev external services.
+func DefaultServicesConfigDev() Services {
+	return Services{
+		StatusServerDomain: "https://status-dev.btfs.io",
+		HubDomain:          "https://hub-dev.btfs.io",
+		EscrowDomain:       "https://escrow-dev.btfs.io",
+		GuardDomain:        "https://guard-dev.btfs.io",
+		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
+		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
 }
 
