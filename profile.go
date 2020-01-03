@@ -224,6 +224,7 @@ fetching may be degraded.
 		Transform: func(c *Config) error {
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
+			c.Experimental.Analytics = true
 			if len(c.Addresses.RemoteAPI) == 0 {
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
@@ -240,6 +241,7 @@ fetching may be degraded.
 		Transform: func(c *Config) error {
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
+			c.Experimental.Analytics = true
 			if len(c.Addresses.RemoteAPI) == 0 {
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
