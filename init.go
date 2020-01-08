@@ -8,6 +8,8 @@ import (
 	"io"
 	"time"
 
+	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+
 	ci "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 )
@@ -87,7 +89,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			Libp2pStreamMounting: true, // Enabled for remote api
 			RemoveOnUnpin:        rmOnUnpin,
 			HostsSyncEnabled:     DefaultHostsSyncEnabled,
-			HostsSyncMode:        DefaultHostsSyncMode,
+			HostsSyncMode:        DefaultHostsSyncMode.String(),
 		},
 	}
 
@@ -100,7 +102,7 @@ const DefaultHostsSyncEnabled = true
 
 // DefaultHostsSyncMode is the default value for the hosts sync mode
 // from hub
-const DefaultHostsSyncMode = "score"
+const DefaultHostsSyncMode = hubpb.HostsReq_SCORE
 
 // DefaultConnMgrHighWater is the default value for the connection managers
 // 'high water' mark
