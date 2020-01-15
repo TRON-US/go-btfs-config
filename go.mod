@@ -7,7 +7,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/multiformats/go-multiaddr v0.0.4
 	github.com/multiformats/go-multiaddr-dns v0.0.2
-	github.com/tron-us/go-btfs-common v0.2.8
+	github.com/tron-us/go-btfs-common v0.2.11
 )
 
 go 1.13
