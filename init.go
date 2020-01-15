@@ -103,6 +103,7 @@ const DefaultHostsSyncEnabled = true
 // DefaultHostsSyncMode is the default value for the hosts sync mode
 // from hub
 const DefaultHostsSyncMode = hubpb.HostsReq_SCORE
+const DefaultHostsSyncModeDev = hubpb.HostsReq_TESTNET
 
 // DefaultConnMgrHighWater is the default value for the connection managers
 // 'high water' mark

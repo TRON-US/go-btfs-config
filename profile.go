@@ -274,7 +274,7 @@ fetching may be degraded.
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
 			c.Experimental.HostsSyncEnabled = true
-			c.Experimental.HostsSyncMode = DefaultHostsSyncMode.String()
+			c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
 			if len(c.Addresses.RemoteAPI) == 0 {
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
