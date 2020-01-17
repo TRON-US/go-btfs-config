@@ -87,6 +87,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 		},
 		Experimental: Experiments{
 			Libp2pStreamMounting: true, // Enabled for remote api
+			StorageClientEnabled: true,
 			RemoveOnUnpin:        rmOnUnpin,
 			HostsSyncEnabled:     DefaultHostsSyncEnabled,
 			HostsSyncMode:        DefaultHostsSyncMode.String(),

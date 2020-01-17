@@ -11,6 +11,10 @@ func migrate_1_Services(cfg *Config) bool {
 		cfg.Services = DefaultServicesConfig()
 		return true
 	}
+	if len(cfg.Services.EscrowPubKeys) == 0 || len(cfg.Services.GuardPubKeys) == 0 {
+		cfg.Services = DefaultServicesConfig()
+		return true
+	}
 	return false
 }
 
@@ -23,16 +27,15 @@ func migrate_2_StatusUrl(cfg *Config) bool {
 	return false
 }
 
-func migrate_3_StorageSettings(cfg *Config, fromV0 bool) bool {
-	// 1) Enable host if user opted in (analytics = true) AND
-	// it is a new upgrade from 0.x.x version
+func migrate_3_StorageSettings(cfg *Config, fromV0, inited, hasHval bool) bool {
+	// 1) Enable host
+	//    a) Upgrade from 0.x.x -> 1.x.x and has hval (bt client)
+	//    b) New profile and has hval (bt client)
 	// 2) Enable renter if it is a new upgrade from 0.x.x version
-	if !fromV0 {
-		return false
+	if fromV0 {
+		Profiles["storage-client"].Transform(cfg)
 	}
-	// no error possible
-	Profiles["storage-client"].Transform(cfg)
-	if cfg.Experimental.Analytics {
+	if hasHval && (fromV0 || inited) {
 		Profiles["storage-host"].Transform(cfg)
 	}
 	return true
@@ -40,11 +43,13 @@ func migrate_3_StorageSettings(cfg *Config, fromV0 bool) bool {
 
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
-func MigrateConfig(cfg *Config) bool {
+// inited = just initialized in the same call
+// hasHval = passed in Hval in the same call
+func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated := false
 	upToV1 := migrate_1_Services(cfg)
 	updated = upToV1 || updated
 	updated = migrate_2_StatusUrl(cfg) || updated
-	updated = migrate_3_StorageSettings(cfg, upToV1) || updated
+	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
 	return updated
 }
