@@ -11,6 +11,10 @@ func migrate_1_Services(cfg *Config) bool {
 		cfg.Services = DefaultServicesConfig()
 		return true
 	}
+	if len(cfg.Services.EscrowPubKeys) == 0 || len(cfg.Services.GuardPubKeys) == 0 {
+		cfg.Services = DefaultServicesConfig()
+		return true
+	}
 	return false
 }
 
