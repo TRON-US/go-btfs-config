@@ -6,6 +6,7 @@ type SwarmConfig struct {
 	DisableNatPortMap       bool
 	DisableRelay            bool
 	EnableRelayHop          bool
+	SwarmKey                string
 
 	// autorelay functionality
 	// if true, then the libp2p host will be constructed with autorelay functionality.

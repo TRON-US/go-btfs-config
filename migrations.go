@@ -41,6 +41,14 @@ func migrate_3_StorageSettings(cfg *Config, fromV0, inited, hasHval bool) bool {
 	return true
 }
 
+func migrate_4_SwarmKey(cfg *Config) bool {
+	if cfg.Swarm.SwarmKey == "" {
+		cfg.Swarm.SwarmKey = DefaultSwarmKey
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -51,5 +59,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = upToV1 || updated
 	updated = migrate_2_StatusUrl(cfg) || updated
 	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
+	updated = migrate_4_SwarmKey(cfg) || updated
 	return updated
 }
