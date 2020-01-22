@@ -126,7 +126,7 @@ const DefaultSwarmKey = `/key/swarm/psk/1.0.0/
 
 // DefaultTestnetSwarmKey is the default swarm key for testnet BTFS
 const DefaultTestnetSwarmKey = `/key/swarm/psk/1.0.0/
-base16/
+/base16/
 d0566ce7e71d880487a89385296ab8a454967e975955ce0e59bff7991d5539d6`
 
 func addressesConfig() Addresses {

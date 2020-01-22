@@ -222,6 +222,11 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
 			c.Experimental.Analytics = true
@@ -240,6 +245,11 @@ fetching may be degraded.
 		Description: `[dev] Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
 			c.Experimental.Analytics = true
@@ -258,6 +268,11 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to pay to store files on the network.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
 			c.Experimental.HostsSyncEnabled = true
@@ -274,6 +289,11 @@ fetching may be degraded.
 		Description: `[dev] Configures necessary flags and options for node to pay to store files on the network.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
 			c.Experimental.HostsSyncEnabled = true
