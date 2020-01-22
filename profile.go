@@ -232,6 +232,7 @@ fetching may be degraded.
 				c.Datastore.StorageMax = "1TB"
 			}
 			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
 			return nil
 		},
 	},
@@ -249,6 +250,7 @@ fetching may be degraded.
 				c.Datastore.StorageMax = "1TB"
 			}
 			c.Services = DefaultServicesConfigDev()
+			c.Swarm.SwarmKey = DefaultTestnetSwarmKey
 			return nil
 		},
 	},
@@ -264,6 +266,7 @@ fetching may be degraded.
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
 			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
 			return nil
 		},
 	},
@@ -279,6 +282,7 @@ fetching may be degraded.
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
 			c.Services = DefaultServicesConfigDev()
+			c.Swarm.SwarmKey = DefaultTestnetSwarmKey
 			return nil
 		},
 	},
