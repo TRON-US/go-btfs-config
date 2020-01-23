@@ -78,6 +78,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			Strategy: "all",
 		},
 		Swarm: SwarmConfig{
+			SwarmKey: DefaultSwarmKey,
 			ConnMgr: ConnMgr{
 				LowWater:    DefaultConnMgrLowWater,
 				HighWater:   DefaultConnMgrHighWater,
@@ -117,6 +118,16 @@ const DefaultConnMgrLowWater = 600
 // DefaultConnMgrGracePeriod is the default value for the connection managers
 // grace period
 const DefaultConnMgrGracePeriod = time.Second * 20
+
+// DefaultSwarmKey is the default swarm key for mainnet BTFS
+const DefaultSwarmKey = `/key/swarm/psk/1.0.0/
+/base16/
+64ef95289a6b998c776927ed6e33ca8c9202ee47df90141d09f5ffeeb64b8a66`
+
+// DefaultTestnetSwarmKey is the default swarm key for testnet BTFS
+const DefaultTestnetSwarmKey = `/key/swarm/psk/1.0.0/
+/base16/
+d0566ce7e71d880487a89385296ab8a454967e975955ce0e59bff7991d5539d6`
 
 func addressesConfig() Addresses {
 	return Addresses{
@@ -188,6 +199,18 @@ func DefaultServicesConfigDev() Services {
 		HubDomain:          "https://hub-dev.btfs.io",
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
+		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
+		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
+	}
+}
+
+// DefaultServicesConfigTestnet returns the default set of configs for testnet external services.
+func DefaultServicesConfigTestnet() Services {
+	return Services{
+		StatusServerDomain: "https://status-staging.btfs.io",
+		HubDomain:          "https://hub-staging.btfs.io",
+		EscrowDomain:       "https://escrow-staging.btfs.io",
+		GuardDomain:        "https://guard-staging.btfs.io",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}

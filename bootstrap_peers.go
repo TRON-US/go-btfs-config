@@ -30,6 +30,23 @@ var DefaultBootstrapAddresses = []string{
 	"/ip4/18.194.71.27/tcp/4001/btfs/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
 	"/ip4/54.93.47.134/tcp/4001/btfs/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
 }
+var DefaultTestnetBootstrapAddresses = []string{
+	"/ip4/13.59.69.165/tcp/45301/btfs/16Uiu2HAmFFwNdgSoLhfgJUPEfPEVodppRxaeZBVpAvrH5s3qSkWo",
+	"/ip4/13.59.69.165/tcp/34237/btfs/16Uiu2HAmDigS3SDx6g9Sp6MUfdFHvDwS8Zw8E14V6bLhCAHA3jjB",
+	"/ip4/13.59.69.165/tcp/43097/btfs/16Uiu2HAm7HQoEbQe1fYt4LtnG6z5TqwTrrqUv5xsnt4nukskWmAi",
+	"/ip4/13.59.69.165/tcp/38955/btfs/16Uiu2HAm5WrYvkJwaRP7ZAroWCfjaUxKkNssqcSmEmKJ8vXVYp1o",
+	"/ip4/13.59.69.165/tcp/43113/btfs/16Uiu2HAkxwtWLvxtu1Av4ia57qzbuBN2gFJ9zxcaGM6yDtyZxx7T",
+	"/ip4/13.229.73.63/tcp/36707/btfs/16Uiu2HAmDis3wAorW46YyNmXNk963VAAHwZ1phjHXj5yduyawAUy",
+	"/ip4/13.229.73.63/tcp/42741/btfs/16Uiu2HAmSfqLCyqH5qQQF8zpzPMQvWiQunhWpYtSxwGw5QR2jhgU",
+	"/ip4/13.229.73.63/tcp/37403/btfs/16Uiu2HAmBHwyRUETsGqjYpgPRpnMC9y39tcVYH6vKxZidCBcBeFG",
+	"/ip4/13.229.73.63/tcp/37739/btfs/16Uiu2HAm2oKy37KvYmiv1nnRWZwUoLPZumNKFxPzhM1t8F3KxADu",
+	"/ip4/13.229.73.63/tcp/38869/btfs/16Uiu2HAkz9ayzU2yXBMKuajyFAJ38DKWJhUDMWWehvEHnBYqPwqw",
+	"/ip4/52.57.56.230/tcp/40155/btfs/16Uiu2HAmTMEqndByECXuxk1Rg8szxMqwS3tUFFWhAUduFzwfwmfK",
+	"/ip4/52.57.56.230/tcp/44569/btfs/16Uiu2HAmL4QNi68nSNbedUWp1A1cRR3z3NuJqQYmAYoj19ht6iNv",
+	"/ip4/52.57.56.230/tcp/39703/btfs/16Uiu2HAkzF6JMx4EL2C4cLoCLyQH8t1sgyttQxPfQtNt5FZhvpxs",
+	"/ip4/52.57.56.230/tcp/46713/btfs/16Uiu2HAm85HXJA7xmgNxxTVdFRuRCGstvrY8nW6KqfTtkuZrZg64",
+	"/ip4/52.57.56.230/tcp/38131/btfs/16Uiu2HAmLvC6gRHir8FCB63seobydTTuwmxMcrBceEiBcNVZBaPw",
+}
 
 // ErrInvalidPeerAddr signals an address is not a valid peer address.
 var ErrInvalidPeerAddr = errors.New("invalid peer address")
@@ -44,8 +61,18 @@ func (c *Config) BootstrapPeers() ([]peer.AddrInfo, error) {
 func DefaultBootstrapPeers() ([]peer.AddrInfo, error) {
 	ps, err := ParseBootstrapPeers(DefaultBootstrapAddresses)
 	if err != nil {
-		return nil, fmt.Errorf(`failed to parse hardcoded bootstrap peers: %s
-This is a problem with the btfs codebase. Please report it to the dev team.`, err)
+		return nil, fmt.Errorf(`Failed to parse hardcoded bootstrap peers: %s
+This is a problem with the BTFS codebase.
+Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
+	}
+	return ps, nil
+}
+func DefaultTestnetBootstrapPeers() ([]peer.AddrInfo, error) {
+	ps, err := ParseBootstrapPeers(DefaultTestnetBootstrapAddresses)
+	if err != nil {
+		return nil, fmt.Errorf(`Failed to parse hardcoded testnet bootstrap peers: %s
+This is a problem with the BTFS codebase.
+Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
 	}
 	return ps, nil
 }

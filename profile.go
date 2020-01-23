@@ -222,6 +222,11 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
 			c.Experimental.Analytics = true
@@ -232,6 +237,7 @@ fetching may be degraded.
 				c.Datastore.StorageMax = "1TB"
 			}
 			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
 			return nil
 		},
 	},
@@ -239,16 +245,21 @@ fetching may be degraded.
 		Description: `[dev] Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
-			c.Experimental.Libp2pStreamMounting = true
-			c.Experimental.StorageHostEnabled = true
-			c.Experimental.Analytics = true
-			if len(c.Addresses.RemoteAPI) == 0 {
-				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
-			}
-			if c.Datastore.StorageMax == "10GB" {
-				c.Datastore.StorageMax = "1TB"
+			if err := transformDevStorageHost(c); err != nil {
+				return err
 			}
 			c.Services = DefaultServicesConfigDev()
+			return nil
+		},
+	},
+	"storage-host-testnet": {
+		Description: `[testnet] Configures necessary flags and options for node to become a storage host.`,
+
+		Transform: func(c *Config) error {
+			if err := transformDevStorageHost(c); err != nil {
+				return err
+			}
+			c.Services = DefaultServicesConfigTestnet()
 			return nil
 		},
 	},
@@ -256,6 +267,11 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to pay to store files on the network.`,
 
 		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
 			c.Experimental.HostsSyncEnabled = true
@@ -264,6 +280,7 @@ fetching may be degraded.
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
 			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
 			return nil
 		},
 	},
@@ -271,17 +288,63 @@ fetching may be degraded.
 		Description: `[dev] Configures necessary flags and options for node to pay to store files on the network.`,
 
 		Transform: func(c *Config) error {
-			c.Experimental.Libp2pStreamMounting = true
-			c.Experimental.StorageClientEnabled = true
-			c.Experimental.HostsSyncEnabled = true
-			c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
-			if len(c.Addresses.RemoteAPI) == 0 {
-				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			if err := transformDevStorageClient(c); err != nil {
+				return err
 			}
 			c.Services = DefaultServicesConfigDev()
 			return nil
 		},
 	},
+	"storage-client-testnet": {
+		Description: `[testnet] Configures necessary flags and options for node to pay to store files on the network.`,
+
+		Transform: func(c *Config) error {
+			if err := transformDevStorageClient(c); err != nil {
+				return err
+			}
+			c.Services = DefaultServicesConfigTestnet()
+			return nil
+		},
+	},
+}
+
+// transformDevStorageHost transforms common host settings among different dev environments
+func transformDevStorageHost(c *Config) error {
+	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+	if err != nil {
+		return err
+	}
+	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+	c.Experimental.Libp2pStreamMounting = true
+	c.Experimental.StorageHostEnabled = true
+	c.Experimental.Analytics = true
+	if len(c.Addresses.RemoteAPI) == 0 {
+		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+	}
+	if c.Datastore.StorageMax == "10GB" {
+		c.Datastore.StorageMax = "1TB"
+	}
+	c.Services = DefaultServicesConfigDev()
+	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	return nil
+}
+
+// transformDevStorageClient transforms common client settings among different dev environments
+func transformDevStorageClient(c *Config) error {
+	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+	if err != nil {
+		return err
+	}
+	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+	c.Experimental.Libp2pStreamMounting = true
+	c.Experimental.StorageClientEnabled = true
+	c.Experimental.HostsSyncEnabled = true
+	c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
+	if len(c.Addresses.RemoteAPI) == 0 {
+		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+	}
+	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	return nil
 }
 
 func getAvailablePort() (port int, err error) {
