@@ -41,6 +41,11 @@ var DefaultTestnetBootstrapAddresses = []string{
 	"/ip4/13.229.73.63/tcp/37403/btfs/16Uiu2HAmBHwyRUETsGqjYpgPRpnMC9y39tcVYH6vKxZidCBcBeFG",
 	"/ip4/13.229.73.63/tcp/37739/btfs/16Uiu2HAm2oKy37KvYmiv1nnRWZwUoLPZumNKFxPzhM1t8F3KxADu",
 	"/ip4/13.229.73.63/tcp/38869/btfs/16Uiu2HAkz9ayzU2yXBMKuajyFAJ38DKWJhUDMWWehvEHnBYqPwqw",
+	"/ip4/52.57.56.230/tcp/40155/btfs/16Uiu2HAmTMEqndByECXuxk1Rg8szxMqwS3tUFFWhAUduFzwfwmfK",
+	"/ip4/52.57.56.230/tcp/44569/btfs/16Uiu2HAmL4QNi68nSNbedUWp1A1cRR3z3NuJqQYmAYoj19ht6iNv",
+	"/ip4/52.57.56.230/tcp/39703/btfs/16Uiu2HAkzF6JMx4EL2C4cLoCLyQH8t1sgyttQxPfQtNt5FZhvpxs",
+	"/ip4/52.57.56.230/tcp/46713/btfs/16Uiu2HAm85HXJA7xmgNxxTVdFRuRCGstvrY8nW6KqfTtkuZrZg64",
+	"/ip4/52.57.56.230/tcp/38131/btfs/16Uiu2HAmLvC6gRHir8FCB63seobydTTuwmxMcrBceEiBcNVZBaPw",
 }
 
 // ErrInvalidPeerAddr signals an address is not a valid peer address.
