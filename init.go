@@ -204,6 +204,18 @@ func DefaultServicesConfigDev() Services {
 	}
 }
 
+// DefaultServicesConfigTestnet returns the default set of configs for testnet external services.
+func DefaultServicesConfigTestnet() Services {
+	return Services{
+		StatusServerDomain: "https://status-staging.btfs.io",
+		HubDomain:          "https://hub-staging.btfs.io",
+		EscrowDomain:       "https://escrow-staging.btfs.io",
+		GuardDomain:        "https://guard-staging.btfs.io",
+		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
+		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
+	}
+}
+
 // identityConfig initializes a new identity.
 func identityConfig(out io.Writer, nbits int, keyType string, importKey string) (Identity, error) {
 	// TODO guard higher up
