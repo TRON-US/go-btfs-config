@@ -26,7 +26,7 @@ var DefaultBootstrapAddresses = []string{
 	"/ip4/13.229.45.41/tcp/4001/btfs/QmX7RZXh27AX8iv2BKLGMgPBiuUpEy8p4LFXgtXAfaZDn9",
 	"/ip4/54.254.227.188/tcp/4001/btfs/QmYqCq3PasrzLr3PxtLo5D6spEAJ836W9Re9Eo4zUou45U",
 	"/ip4/52.77.240.134/tcp/4001/btfs/QmURPwdLYesWUDB66EGXvDvwcyV44rVRqV2iGNqKN24eVu",
-	"/ip4/3.120.224.94/tcp/4001/btfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
+	"/ip4/18.196.49.234/tcp/4001/btfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
 	"/ip4/18.194.71.27/tcp/4001/btfs/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
 	"/ip4/54.93.47.134/tcp/4001/btfs/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
 }
