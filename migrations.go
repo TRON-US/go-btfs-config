@@ -49,6 +49,25 @@ func migrate_4_SwarmKey(cfg *Config) bool {
 	return false
 }
 
+// checks to see if the current config contains known obsolete ip addresses
+// for bootstrap nodes.
+// Replaces all bootstrap nodes with default values if so.
+func migrate_5_Bootstrap_node(cfg *Config) bool {
+	obsoleteBootstrapNodeList := []string{"3.120.224.94"}
+	currentBootstrapNodeList := cfg.Bootstrap
+
+	for _, obsoleteNode := range obsoleteBootstrapNodeList {
+		for _, bootstrapNode := range currentBootstrapNodeList {
+			if strings.Contains(bootstrapNode, obsoleteNode) {
+				bootstrapPeers, _ := DefaultBootstrapPeers()
+				cfg.SetBootstrapPeers(bootstrapPeers)
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -60,5 +79,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_2_StatusUrl(cfg) || updated
 	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
 	updated = migrate_4_SwarmKey(cfg) || updated
+	updated = migrate_5_Bootstrap_node(cfg) || updated
 	return updated
 }
