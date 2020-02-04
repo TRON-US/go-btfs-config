@@ -129,12 +129,15 @@ const DefaultTestnetSwarmKey = `/key/swarm/psk/1.0.0/
 /base16/
 d0566ce7e71d880487a89385296ab8a454967e975955ce0e59bff7991d5539d6`
 
+// DefaultSwarmPort is the default swarm discovery port
+const DefaultSwarmPort = 4001
+
 func addressesConfig() Addresses {
 	return Addresses{
 		Swarm: []string{
-			"/ip4/0.0.0.0/tcp/4001",
+			fmt.Sprintf("/ip4/0.0.0.0/tcp/%d", DefaultSwarmPort),
 			// "/ip4/0.0.0.0/udp/4002/utp", // disabled for now.
-			"/ip6/::/tcp/4001",
+			fmt.Sprintf("/ip6/::/tcp/%d", DefaultSwarmPort),
 		},
 		Announce:   []string{},
 		NoAnnounce: []string{},
