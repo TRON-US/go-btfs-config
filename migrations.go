@@ -53,7 +53,7 @@ func migrate_4_SwarmKey(cfg *Config) bool {
 // for bootstrap nodes.
 // Replaces all bootstrap nodes with default values if so.
 func migrate_5_Bootstrap_node(cfg *Config) bool {
-	obsoleteBootstrapNodeList := []string{"3.120.224.94"}
+	obsoleteBootstrapNodeList := []string{"3.120.224.94", "52.57.56.230"}
 	currentBootstrapNodeList := cfg.Bootstrap
 
 	for _, obsoleteNode := range obsoleteBootstrapNodeList {
