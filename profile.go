@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -47,22 +48,41 @@ var defaultServerFilters = []string{
 }
 
 func ExternalIP() (string, error) {
+	return ExternalIPWithPort(DefaultSwarmPort, DefaultSwarmPort, nil)
+}
+
+func ExternalIPWithPort(extPort, intPort int, swarmAddrs []string) (string, error) {
+	// check internal port against swarm listening if being overriden
+	if swarmAddrs != nil {
+		valid := false
+		for _, sa := range swarmAddrs {
+			parts := strings.Split(sa, "/")
+			if len(parts) != 5 {
+				return "", fmt.Errorf("invalid swarm listening address: %s", sa)
+			}
+			// found a match of the internal port
+			if parts[4] == fmt.Sprintf("%d", intPort) {
+				valid = true
+				break
+			}
+		}
+		if !valid {
+			return "", fmt.Errorf("internal port not found in swarm listening addresses: %d", intPort)
+		}
+	}
 	resp, err := http.Get("http://checkip.amazonaws.com")
 	if err != nil {
-		fmt.Println("get external IP failed")
-		return "", err
+		return "", fmt.Errorf("get external IP failed: [%v]", err)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("parse external IP failed")
-		return "", err
+		return "", fmt.Errorf("parse external IP failed: [%v]", err)
 	}
 	ip := string(body)
 	// remove last return
-	ip = ip[:len(ip)-1]
-	address := "/ip4/" + ip
-	address += "/tcp/4001"
+	ip = strings.TrimSpace(ip)
+	address := fmt.Sprintf("/ip4/%s/tcp/%d", ip, extPort)
 	return address, nil
 }
 
