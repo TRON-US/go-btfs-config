@@ -87,7 +87,6 @@ func doMigrateNodes(cfg *Config, obsoleteBootstrapNodes []string, defaultPeers [
 
 	for _, obsoleteNode := range obsoleteBootstrapNodes {
 		for _, bootstrapNode := range currentBootstrapNodeList {
-			fmt.Println("obsoleteNode", obsoleteNode, "bootstrapNode", bootstrapNode)
 			if strings.Contains(bootstrapNode, obsoleteNode) {
 				cfg.SetBootstrapPeers(defaultPeers)
 				return true
