@@ -68,6 +68,14 @@ func migrate_5_Bootstrap_node(cfg *Config) bool {
 	return false
 }
 
+func migrate_6_EnableAutoRelay(cfg *Config) bool {
+	if cfg.Swarm.EnableAutoRelay != DefaultEnableAutoRelay {
+		cfg.Swarm.EnableAutoRelay = DefaultEnableAutoRelay
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -80,5 +88,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
 	updated = migrate_4_SwarmKey(cfg) || updated
 	updated = migrate_5_Bootstrap_node(cfg) || updated
+	updated = migrate_6_EnableAutoRelay(cfg) || updated
 	return updated
 }
