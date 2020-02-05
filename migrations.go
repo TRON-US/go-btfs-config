@@ -59,7 +59,7 @@ func migrate_5_Bootstrap_node(cfg *Config) bool {
 		"3.120.224.94",
 	}
 	peers, _ := DefaultBootstrapPeers()
-	return doMigrateNodees(cfg, obns, peers)
+	return doMigrateNodes(cfg, obns, peers)
 }
 
 func migrate_6_EnableAutoRelay(cfg *Config) bool {
@@ -78,10 +78,10 @@ func migrate_7_Testnet_Bootstrap_node(cfg *Config) bool {
 		"52.57.56.230",
 	}
 	peers, _ := DefaultTestnetBootstrapPeers()
-	return doMigrateNodees(cfg, obns, peers)
+	return doMigrateNodes(cfg, obns, peers)
 }
 
-func doMigrateNodees(cfg *Config, obsoleteBootstrapNodes []string, defaultPeers []peer.AddrInfo) bool {
+func doMigrateNodes(cfg *Config, obsoleteBootstrapNodes []string, defaultPeers []peer.AddrInfo) bool {
 	currentBootstrapNodeList := cfg.Bootstrap
 
 	for _, obsoleteNode := range obsoleteBootstrapNodes {
