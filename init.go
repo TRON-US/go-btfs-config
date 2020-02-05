@@ -85,6 +85,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 				GracePeriod: DefaultConnMgrGracePeriod.String(),
 				Type:        "basic",
 			},
+			EnableAutoRelay: DefaultEnableAutoRelay,
 		},
 		Experimental: Experiments{
 			Libp2pStreamMounting: true, // Enabled for remote api
@@ -131,6 +132,8 @@ d0566ce7e71d880487a89385296ab8a454967e975955ce0e59bff7991d5539d6`
 
 // DefaultSwarmPort is the default swarm discovery port
 const DefaultSwarmPort = 4001
+
+const DefaultEnableAutoRelay = true
 
 func addressesConfig() Addresses {
 	return Addresses{

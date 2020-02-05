@@ -1,8 +1,11 @@
 package config
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
+
+	"github.com/libp2p/go-libp2p-core/peer"
 )
 
 func migrate_1_Services(cfg *Config) bool {
@@ -53,14 +56,39 @@ func migrate_4_SwarmKey(cfg *Config) bool {
 // for bootstrap nodes.
 // Replaces all bootstrap nodes with default values if so.
 func migrate_5_Bootstrap_node(cfg *Config) bool {
-	obsoleteBootstrapNodeList := []string{"3.120.224.94"}
+	obns := []string{
+		"3.120.224.94",
+	}
+	peers, _ := DefaultBootstrapPeers()
+	return doMigrateNodes(cfg, obns, peers)
+}
+
+func migrate_6_EnableAutoRelay(cfg *Config) bool {
+	if cfg.Swarm.EnableAutoRelay != DefaultEnableAutoRelay {
+		cfg.Swarm.EnableAutoRelay = DefaultEnableAutoRelay
+		return true
+	}
+	return false
+}
+
+// checks to see if the current config contains known obsolete ip addresses
+// for testnet bootstrap nodes.
+// Replaces all testnet bootstrap nodes with default values if so.
+func migrate_7_Testnet_Bootstrap_node(cfg *Config) bool {
+	obns := []string{
+		"52.57.56.230",
+	}
+	peers, _ := DefaultTestnetBootstrapPeers()
+	return doMigrateNodes(cfg, obns, peers)
+}
+
+func doMigrateNodes(cfg *Config, obsoleteBootstrapNodes []string, defaultPeers []peer.AddrInfo) bool {
 	currentBootstrapNodeList := cfg.Bootstrap
 
-	for _, obsoleteNode := range obsoleteBootstrapNodeList {
+	for _, obsoleteNode := range obsoleteBootstrapNodes {
 		for _, bootstrapNode := range currentBootstrapNodeList {
 			if strings.Contains(bootstrapNode, obsoleteNode) {
-				bootstrapPeers, _ := DefaultBootstrapPeers()
-				cfg.SetBootstrapPeers(bootstrapPeers)
+				cfg.SetBootstrapPeers(defaultPeers)
 				return true
 			}
 		}
@@ -80,5 +108,7 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
 	updated = migrate_4_SwarmKey(cfg) || updated
 	updated = migrate_5_Bootstrap_node(cfg) || updated
+	updated = migrate_6_EnableAutoRelay(cfg) || updated
+	updated = migrate_7_Testnet_Bootstrap_node(cfg) || updated
 	return updated
 }
