@@ -95,6 +95,14 @@ func doMigrateNodes(cfg *Config, obsoleteBootstrapNodes []string, defaultPeers [
 	return false
 }
 
+func migrate_8_AnnounceDefault(cfg *Config, beforeV1B2 bool) bool {
+	if beforeV1B2 {
+		cfg.Addresses.Announce = []string{}
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -105,9 +113,11 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = upToV1 || updated
 	updated = migrate_2_StatusUrl(cfg) || updated
 	updated = migrate_3_StorageSettings(cfg, upToV1, inited, hasHval) || updated
-	updated = migrate_4_SwarmKey(cfg) || updated
+	upToV1B2 := migrate_4_SwarmKey(cfg)
+	updated = upToV1B2 || updated
 	updated = migrate_5_Bootstrap_node(cfg) || updated
 	updated = migrate_6_EnableAutoRelay(cfg) || updated
 	updated = migrate_7_Testnet_Bootstrap_node(cfg) || updated
+	updated = migrate_8_AnnounceDefault(cfg, upToV1B2) || updated
 	return updated
 }
