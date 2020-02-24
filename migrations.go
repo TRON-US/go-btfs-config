@@ -104,11 +104,20 @@ func migrate_8_AnnounceDefault(cfg *Config, beforeV1B2 bool) bool {
 }
 
 func migrate_9_WalletDomain(cfg *Config) bool {
-	if len(cfg.Services.ExchangeDomain) == 0 {
-		ds := DefaultServicesConfig()
-		cfg.Services.ExchangeDomain = ds.ExchangeDomain
-		cfg.Services.SolidityDomain = ds.SolidityDomain
-		return true
+	if strings.Contains(cfg.Services.EscrowDomain, "dev") || strings.Contains(cfg.Services.EscrowDomain, "staging") {
+		if len(cfg.Services.ExchangeDomain) == 0 {
+			ds := DefaultServicesConfigTestnet()
+			cfg.Services.ExchangeDomain = ds.ExchangeDomain
+			cfg.Services.SolidityDomain = ds.SolidityDomain
+			return true
+		}
+	} else {
+		if len(cfg.Services.ExchangeDomain) == 0 {
+			ds := DefaultServicesConfig()
+			cfg.Services.ExchangeDomain = ds.ExchangeDomain
+			cfg.Services.SolidityDomain = ds.SolidityDomain
+			return true
+		}
 	}
 	return false
 }
