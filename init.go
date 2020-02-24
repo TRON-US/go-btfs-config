@@ -193,6 +193,8 @@ func DefaultServicesConfig() Services {
 		HubDomain:          "https://hub.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
+		ExchangeDomain:     "https://exchange.bt.co",
+		SolidityDomain:     "grpc.trongrid.io:50052",
 		EscrowPubKeys:      []string{"CAISIQPAfB2Mt2ic+n3JcL4vrKXxBCmB0iNh+5BYiXdJNWed/Q=="},
 		GuardPubKeys:       []string{"CAISIQJ16EiwvGko4SaBEEUFyMdNZp1vKsTLgIXCY6fRa3/Obg=="},
 	}
@@ -205,6 +207,8 @@ func DefaultServicesConfigDev() Services {
 		HubDomain:          "https://hub-dev.btfs.io",
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
+		ExchangeDomain:     "https://exchange-dev.bt.co",
+		SolidityDomain:     "grpc.shasta.trongrid.io:50052",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
@@ -217,6 +221,8 @@ func DefaultServicesConfigTestnet() Services {
 		HubDomain:          "https://hub-staging.btfs.io",
 		EscrowDomain:       "https://escrow-staging.btfs.io",
 		GuardDomain:        "https://guard-staging.btfs.io",
+		ExchangeDomain:     "https://exchange-dev.bt.co",
+		SolidityDomain:     "grpc.shasta.trongrid.io:50052",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}

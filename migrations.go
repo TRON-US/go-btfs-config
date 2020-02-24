@@ -103,6 +103,25 @@ func migrate_8_AnnounceDefault(cfg *Config, beforeV1B2 bool) bool {
 	return false
 }
 
+func migrate_9_WalletDomain(cfg *Config) bool {
+	if strings.Contains(cfg.Services.EscrowDomain, "dev") || strings.Contains(cfg.Services.EscrowDomain, "staging") {
+		if len(cfg.Services.ExchangeDomain) == 0 {
+			ds := DefaultServicesConfigTestnet()
+			cfg.Services.ExchangeDomain = ds.ExchangeDomain
+			cfg.Services.SolidityDomain = ds.SolidityDomain
+			return true
+		}
+	} else {
+		if len(cfg.Services.ExchangeDomain) == 0 {
+			ds := DefaultServicesConfig()
+			cfg.Services.ExchangeDomain = ds.ExchangeDomain
+			cfg.Services.SolidityDomain = ds.SolidityDomain
+			return true
+		}
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -119,5 +138,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_6_EnableAutoRelay(cfg) || updated
 	updated = migrate_7_Testnet_Bootstrap_node(cfg) || updated
 	updated = migrate_8_AnnounceDefault(cfg, upToV1B2) || updated
+	updated = migrate_9_WalletDomain(cfg) || updated
 	return updated
 }
