@@ -15,4 +15,5 @@ type Experiments struct {
 	RemoveOnUnpin        bool
 	HostsSyncEnabled     bool
 	HostsSyncMode        string
+	DisableAutoUpdate    bool
 }
