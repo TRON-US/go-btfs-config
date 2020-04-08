@@ -32,6 +32,7 @@ type Config struct {
 	Provider     Provider
 	Reprovider   Reprovider
 	Experimental Experiments
+	UI           UI
 }
 
 const (
