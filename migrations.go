@@ -122,6 +122,33 @@ func migrate_9_WalletDomain(cfg *Config) bool {
 	return false
 }
 
+// check if HTTPHeaders, API and Gateway config are fully configured, then clean HTTPHeaders
+func migrate_10_CleanAPIHTTPHeaders(cfg *Config) bool {
+	condCount := 3
+	httpHeaderFullConfig := map[string][]string{
+		"Access-Control-Allow-Origin": []string{"*"},
+		"Access-Control-Allow-Methods": []string{"PUT", "GET", "POST", "OPTIONS"},
+		"Access-Control-Allow-Credentials": []string{"true"},
+	}
+	if reflect.DeepEqual(cfg.API.HTTPHeaders, httpHeaderFullConfig) {
+		condCount--
+	}
+	addressesAPIFullConfig:= Strings{"/ip4/0.0.0.0/tcp/5001"}
+	if reflect.DeepEqual(cfg.Addresses.API, addressesAPIFullConfig) {
+		condCount--
+	}
+	addressesGatewayFullConfig := Strings{"/ip4/0.0.0.0/tcp/8080"}
+	if reflect.DeepEqual(cfg.Addresses.Gateway, addressesGatewayFullConfig) {
+		condCount--
+	}
+	if condCount == 0 {
+		// clean httpheaders configuration
+		cfg.API.HTTPHeaders = make(map[string][]string)
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -139,5 +166,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_7_Testnet_Bootstrap_node(cfg) || updated
 	updated = migrate_8_AnnounceDefault(cfg, upToV1B2) || updated
 	updated = migrate_9_WalletDomain(cfg) || updated
+	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
 	return updated
 }
