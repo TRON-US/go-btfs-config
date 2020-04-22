@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -122,6 +123,21 @@ func migrate_9_WalletDomain(cfg *Config) bool {
 	return false
 }
 
+// check if Access-Control-Allow-Origin has * configuration, clean HTTPHeaders
+func migrate_10_UpdateAPIHTTPHeaders(cfg *Config) bool {
+	httpHeader := cfg.API.HTTPHeaders
+	if allowOrginHosts, ok := httpHeader["Access-Control-Allow-Origin"]; ok {
+		for _, host := range allowOrginHosts {
+			if strings.Compare("*", host) == 0 {
+				// clean configuration under API.HTTPHeaders
+				cfg.API.HTTPHeaders = make(map[string][]string)
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -139,5 +155,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_7_Testnet_Bootstrap_node(cfg) || updated
 	updated = migrate_8_AnnounceDefault(cfg, upToV1B2) || updated
 	updated = migrate_9_WalletDomain(cfg) || updated
+	updated = migrate_10_UpdateAPIHTTPHeaders(cfg) || updated
 	return updated
 }
