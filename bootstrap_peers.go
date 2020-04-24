@@ -26,7 +26,7 @@ var DefaultBootstrapAddresses = []string{
 	"/ip4/13.229.45.41/tcp/4001/btfs/QmX7RZXh27AX8iv2BKLGMgPBiuUpEy8p4LFXgtXAfaZDn9",
 	"/ip4/54.254.227.188/tcp/4001/btfs/QmYqCq3PasrzLr3PxtLo5D6spEAJ836W9Re9Eo4zUou45U",
 	"/ip4/52.77.240.134/tcp/4001/btfs/QmURPwdLYesWUDB66EGXvDvwcyV44rVRqV2iGNqKN24eVu",
-	"/ip4/18.196.49.234/tcp/4001/btfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
+	"/ip4/3.126.224.22/tcp/4001/btfs/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
 	"/ip4/18.194.71.27/tcp/4001/btfs/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
 	"/ip4/54.93.47.134/tcp/4001/btfs/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
 }
@@ -35,17 +35,17 @@ var DefaultTestnetBootstrapAddresses = []string{
 	"/ip4/13.59.69.165/tcp/34237/btfs/16Uiu2HAmDigS3SDx6g9Sp6MUfdFHvDwS8Zw8E14V6bLhCAHA3jjB",
 	"/ip4/13.59.69.165/tcp/43097/btfs/16Uiu2HAm7HQoEbQe1fYt4LtnG6z5TqwTrrqUv5xsnt4nukskWmAi",
 	"/ip4/13.59.69.165/tcp/38955/btfs/16Uiu2HAm5WrYvkJwaRP7ZAroWCfjaUxKkNssqcSmEmKJ8vXVYp1o",
-	"/ip4/13.59.69.165/tcp/43113/btfs/16Uiu2HAkxwtWLvxtu1Av4ia57qzbuBN2gFJ9zxcaGM6yDtyZxx7T",
 	"/ip4/13.229.73.63/tcp/36707/btfs/16Uiu2HAmDis3wAorW46YyNmXNk963VAAHwZ1phjHXj5yduyawAUy",
 	"/ip4/13.229.73.63/tcp/42741/btfs/16Uiu2HAmSfqLCyqH5qQQF8zpzPMQvWiQunhWpYtSxwGw5QR2jhgU",
 	"/ip4/13.229.73.63/tcp/37403/btfs/16Uiu2HAmBHwyRUETsGqjYpgPRpnMC9y39tcVYH6vKxZidCBcBeFG",
 	"/ip4/13.229.73.63/tcp/37739/btfs/16Uiu2HAm2oKy37KvYmiv1nnRWZwUoLPZumNKFxPzhM1t8F3KxADu",
-	"/ip4/13.229.73.63/tcp/38869/btfs/16Uiu2HAkz9ayzU2yXBMKuajyFAJ38DKWJhUDMWWehvEHnBYqPwqw",
 	"/ip4/3.126.51.74/tcp/40155/btfs/16Uiu2HAmTMEqndByECXuxk1Rg8szxMqwS3tUFFWhAUduFzwfwmfK",
 	"/ip4/3.126.51.74/tcp/44569/btfs/16Uiu2HAmL4QNi68nSNbedUWp1A1cRR3z3NuJqQYmAYoj19ht6iNv",
 	"/ip4/3.126.51.74/tcp/39703/btfs/16Uiu2HAkzF6JMx4EL2C4cLoCLyQH8t1sgyttQxPfQtNt5FZhvpxs",
 	"/ip4/3.126.51.74/tcp/46713/btfs/16Uiu2HAm85HXJA7xmgNxxTVdFRuRCGstvrY8nW6KqfTtkuZrZg64",
-	"/ip4/3.126.51.74/tcp/38131/btfs/16Uiu2HAmLvC6gRHir8FCB63seobydTTuwmxMcrBceEiBcNVZBaPw",
+	"/ip4/18.163.235.175/tcp/36335/btfs/16Uiu2HAm8wVUsVsqksBfxy6yzHpVv5gELQnpU7Q2uhDyXFwr9bfV",
+	"/ip4/18.163.235.175/tcp/44029/btfs/16Uiu2HAmBvnQU5FWgEcfY1jaAK2Q9iQBy6FwQdDUtyT7mo8HU1Yu",
+	"/ip4/18.163.235.175/tcp/40191/btfs/16Uiu2HAkurshicwtTrqbrL3yv9xR7hogPvreUHJP3W8n9W5XMibz",
 }
 
 // ErrInvalidPeerAddr signals an address is not a valid peer address.
