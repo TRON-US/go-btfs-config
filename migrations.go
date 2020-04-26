@@ -57,6 +57,7 @@ func migrate_4_SwarmKey(cfg *Config) bool {
 func migrate_5_Bootstrap_node(cfg *Config) bool {
 	obns := []string{
 		"3.120.224.94",
+		"18.196.49.234",
 	}
 	peers, _ := DefaultBootstrapPeers()
 	return doMigrateNodes(cfg, obns, peers)
