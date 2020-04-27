@@ -77,6 +77,9 @@ func migrate_6_EnableAutoRelay(cfg *Config) bool {
 func migrate_7_Testnet_Bootstrap_node(cfg *Config) bool {
 	obns := []string{
 		"52.57.56.230",
+		"13.59.69.165/tcp/43113",
+		"13.229.73.63/tcp/38869",
+		"3.126.51.74/tcp/38131",
 	}
 	peers, _ := DefaultTestnetBootstrapPeers()
 	return doMigrateNodes(cfg, obns, peers)
