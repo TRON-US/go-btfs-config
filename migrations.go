@@ -130,14 +130,14 @@ func migrate_9_WalletDomain(cfg *Config) bool {
 func migrate_10_CleanAPIHTTPHeaders(cfg *Config) bool {
 	condCount := 3
 	httpHeaderFullConfig := map[string][]string{
-		"Access-Control-Allow-Origin": []string{"*"},
-		"Access-Control-Allow-Methods": []string{"PUT", "GET", "POST", "OPTIONS"},
+		"Access-Control-Allow-Origin":      []string{"*"},
+		"Access-Control-Allow-Methods":     []string{"PUT", "GET", "POST", "OPTIONS"},
 		"Access-Control-Allow-Credentials": []string{"true"},
 	}
 	if reflect.DeepEqual(cfg.API.HTTPHeaders, httpHeaderFullConfig) {
 		condCount--
 	}
-	addressesAPIFullConfig:= Strings{"/ip4/0.0.0.0/tcp/5001"}
+	addressesAPIFullConfig := Strings{"/ip4/0.0.0.0/tcp/5001"}
 	if reflect.DeepEqual(cfg.Addresses.API, addressesAPIFullConfig) {
 		condCount--
 	}
@@ -148,6 +148,17 @@ func migrate_10_CleanAPIHTTPHeaders(cfg *Config) bool {
 	if condCount == 0 {
 		// clean httpheaders configuration
 		cfg.API.HTTPHeaders = make(map[string][]string)
+		return true
+	}
+	return false
+}
+
+func migrate_11_ExchangeDomain(cfg *Config) bool {
+	// migrate staging domain -> staging
+	if strings.Contains(cfg.Services.EscrowDomain, "staging") &&
+		strings.Contains(cfg.Services.ExchangeDomain, "dev") {
+		ds := DefaultServicesConfigTestnet()
+		cfg.Services.ExchangeDomain = ds.ExchangeDomain
 		return true
 	}
 	return false
@@ -171,5 +182,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_8_AnnounceDefault(cfg, upToV1B2) || updated
 	updated = migrate_9_WalletDomain(cfg) || updated
 	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
+	updated = migrate_11_ExchangeDomain(cfg) || updated
 	return updated
 }

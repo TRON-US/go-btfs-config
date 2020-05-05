@@ -221,7 +221,7 @@ func DefaultServicesConfigTestnet() Services {
 		HubDomain:          "https://hub-staging.btfs.io",
 		EscrowDomain:       "https://escrow-staging.btfs.io",
 		GuardDomain:        "https://guard-staging.btfs.io",
-		ExchangeDomain:     "https://exchange-dev.bt.co",
+		ExchangeDomain:     "https://exchange-staging.bt.co",
 		SolidityDomain:     "grpc.trongrid.io:50052",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
