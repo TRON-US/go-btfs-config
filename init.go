@@ -157,29 +157,46 @@ func DefaultDatastoreConfig() Datastore {
 		StorageGCWatermark: 90, // 90%
 		GCPeriod:           "1h",
 		BloomFilterSize:    0,
-		Spec: map[string]interface{}{
-			"type": "mount",
-			"mounts": []interface{}{
-				map[string]interface{}{
-					"mountpoint": "/blocks",
-					"type":       "measure",
-					"prefix":     "flatfs.datastore",
-					"child": map[string]interface{}{
-						"type":      "flatfs",
-						"path":      "blocks",
-						"sync":      true,
-						"shardFunc": "/repo/flatfs/shard/v1/next-to-last/2",
-					},
+		Spec:               flatfsSpec(),
+	}
+}
+
+func badgerSpec() map[string]interface{} {
+	return map[string]interface{}{
+		"type":   "measure",
+		"prefix": "badger.datastore",
+		"child": map[string]interface{}{
+			"type":       "badgerds",
+			"path":       "badgerds",
+			"syncWrites": false,
+			"truncate":   true,
+		},
+	}
+}
+
+func flatfsSpec() map[string]interface{} {
+	return map[string]interface{}{
+		"type": "mount",
+		"mounts": []interface{}{
+			map[string]interface{}{
+				"mountpoint": "/blocks",
+				"type":       "measure",
+				"prefix":     "flatfs.datastore",
+				"child": map[string]interface{}{
+					"type":      "flatfs",
+					"path":      "blocks",
+					"sync":      true,
+					"shardFunc": "/repo/flatfs/shard/v1/next-to-last/2",
 				},
-				map[string]interface{}{
-					"mountpoint": "/",
-					"type":       "measure",
-					"prefix":     "leveldb.datastore",
-					"child": map[string]interface{}{
-						"type":        "levelds",
-						"path":        "datastore",
-						"compression": "none",
-					},
+			},
+			map[string]interface{}{
+				"mountpoint": "/",
+				"type":       "measure",
+				"prefix":     "leveldb.datastore",
+				"child": map[string]interface{}{
+					"type":        "levelds",
+					"path":        "datastore",
+					"compression": "none",
 				},
 			},
 		},
@@ -230,6 +247,10 @@ func DefaultServicesConfigTestnet() Services {
 
 // identityConfig initializes a new identity.
 func identityConfig(out io.Writer, nbits int, keyType string, importKey string) (Identity, error) {
+	if nbits < ci.MinRsaKeyBits {
+		return ident, ci.ErrRsaKeyTooSmall
+	}
+
 	// TODO guard higher up
 	ident := Identity{}
 
@@ -237,10 +258,6 @@ func identityConfig(out io.Writer, nbits int, keyType string, importKey string) 
 	var pk ci.PubKey
 	var err error
 	if importKey == "" {
-		if nbits < 1024 {
-			return ident, errors.New("bitsize less than 1024 is considered unsafe")
-		}
-
 		var key int
 
 		switch keyType {
