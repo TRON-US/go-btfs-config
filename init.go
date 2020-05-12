@@ -247,12 +247,12 @@ func DefaultServicesConfigTestnet() Services {
 
 // identityConfig initializes a new identity.
 func identityConfig(out io.Writer, nbits int, keyType string, importKey string) (Identity, error) {
+	// TODO guard higher up
+	ident := Identity{}
+
 	if nbits < ci.MinRsaKeyBits {
 		return ident, ci.ErrRsaKeyTooSmall
 	}
-
-	// TODO guard higher up
-	ident := Identity{}
 
 	var sk ci.PrivKey
 	var pk ci.PubKey
