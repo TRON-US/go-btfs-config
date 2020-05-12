@@ -58,6 +58,7 @@ func migrate_5_Bootstrap_node(cfg *Config) bool {
 	obns := []string{
 		"3.120.224.94",
 		"18.196.49.234",
+		"/btfs/", // migrate to ipfs 0.5.0+ protocol
 	}
 	peers, _ := DefaultBootstrapPeers()
 	return doMigrateNodes(cfg, obns, peers)
@@ -80,6 +81,7 @@ func migrate_7_Testnet_Bootstrap_node(cfg *Config) bool {
 		"13.59.69.165/tcp/43113",
 		"13.229.73.63/tcp/38869",
 		"3.126.51.74/tcp/38131",
+		"/btfs/", // migrate to ipfs 0.5.0+ protocol
 	}
 	peers, _ := DefaultTestnetBootstrapPeers()
 	return doMigrateNodes(cfg, obns, peers)
@@ -130,9 +132,9 @@ func migrate_9_WalletDomain(cfg *Config) bool {
 func migrate_10_CleanAPIHTTPHeaders(cfg *Config) bool {
 	condCount := 3
 	httpHeaderFullConfig := map[string][]string{
-		"Access-Control-Allow-Origin":      []string{"*"},
-		"Access-Control-Allow-Methods":     []string{"PUT", "GET", "POST", "OPTIONS"},
-		"Access-Control-Allow-Credentials": []string{"true"},
+		"Access-Control-Allow-Origin":      {"*"},
+		"Access-Control-Allow-Methods":     {"PUT", "GET", "POST", "OPTIONS"},
+		"Access-Control-Allow-Credentials": {"true"},
 	}
 	if reflect.DeepEqual(cfg.API.HTTPHeaders, httpHeaderFullConfig) {
 		condCount--
