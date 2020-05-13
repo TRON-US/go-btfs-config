@@ -25,6 +25,7 @@ type Config struct {
 	Gateway   Gateway   // local node's gateway server options
 	API       API       // local node's API settings
 	Swarm     SwarmConfig
+	AutoNAT   AutoNATConfig
 	Pubsub    PubsubConfig
 
 	Services Services // External service domains and info
@@ -33,6 +34,7 @@ type Config struct {
 	Reprovider   Reprovider
 	Experimental Experiments
 	UI           UI
+	Plugins      Plugins
 }
 
 const (
