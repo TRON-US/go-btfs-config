@@ -8,12 +8,15 @@ import (
 
 const IdentityTag = "Identity"
 const PrivKeyTag = "PrivKey"
+const MnemonicTag = "Mnemonic"
 const PrivKeySelector = IdentityTag + "." + PrivKeyTag
+const MnemonicSelector = IdentityTag + "." + MnemonicTag
 
 // Identity tracks the configuration of the local node's identity.
 type Identity struct {
-	PeerID  string
-	PrivKey string `json:",omitempty"`
+	PeerID   string
+	PrivKey  string `json:",omitempty"`
+	Mnemonic string `json:",omitempty"`
 }
 
 // DecodePrivateKey is a helper to decode the users PrivateKey

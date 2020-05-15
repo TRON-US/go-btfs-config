@@ -14,8 +14,8 @@ import (
 	peer "github.com/libp2p/go-libp2p-core/peer"
 )
 
-func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, rmOnUnpin bool) (*Config, error) {
-	identity, err := identityConfig(out, nBitsForKeypair, keyType, importKey)
+func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, mnemonic string, rmOnUnpin bool) (*Config, error) {
+	identity, err := identityConfig(out, nBitsForKeypair, keyType, importKey, mnemonic)
 	if err != nil {
 		return nil, err
 	}
@@ -229,7 +229,7 @@ func DefaultServicesConfigTestnet() Services {
 }
 
 // identityConfig initializes a new identity.
-func identityConfig(out io.Writer, nbits int, keyType string, importKey string) (Identity, error) {
+func identityConfig(out io.Writer, nbits int, keyType string, importKey string, mnemonic string) (Identity, error) {
 	// TODO guard higher up
 	ident := Identity{}
 
@@ -281,6 +281,7 @@ func identityConfig(out io.Writer, nbits int, keyType string, importKey string) 
 		return ident, err
 	}
 	ident.PrivKey = base64.StdEncoding.EncodeToString(skbytes)
+	ident.Mnemonic = mnemonic
 
 	id, err := peer.IDFromPublicKey(pk)
 	if err != nil {
