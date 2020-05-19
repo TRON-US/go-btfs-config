@@ -3,6 +3,7 @@ package config
 type UI struct {
 	Host   HostUI
 	Renter RenterUI
+	Wallet WalletUI
 }
 
 type HostUI struct {
@@ -10,5 +11,9 @@ type HostUI struct {
 }
 
 type RenterUI struct {
+	Initialized bool
+}
+
+type WalletUI struct {
 	Initialized bool
 }
