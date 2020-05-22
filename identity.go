@@ -17,7 +17,6 @@ type Identity struct {
 	PeerID            string
 	PrivKey           string `json:",omitempty"`
 	Mnemonic          string `json:",omitempty"`
-	Password          string `json:",omitempty"`
 	EncryptedMnemonic string `json:",omitempty"`
 	EncryptedPrivKey  string `json:",omitempty"`
 }
