@@ -21,6 +21,7 @@ type Identity struct {
 	Mnemonic          string `json:",omitempty"`
 	Password          string `json:",omitempty"`
 	EncryptedMnemonic string `json:",omitempty"`
+	EncryptedPrivKey  string `json:",omitempty"`
 }
 
 // DecodePrivateKey is a helper to decode the users PrivateKey
