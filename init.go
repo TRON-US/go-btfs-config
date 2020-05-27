@@ -15,7 +15,7 @@ import (
 )
 
 func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, mnemonic string, rmOnUnpin bool) (*Config, error) {
-	identity, err := identityConfig(out, nBitsForKeypair, keyType, importKey, mnemonic)
+	identity, err := IdentityConfig(out, nBitsForKeypair, keyType, importKey, mnemonic)
 	if err != nil {
 		return nil, err
 	}
@@ -245,8 +245,8 @@ func DefaultServicesConfigTestnet() Services {
 	}
 }
 
-// identityConfig initializes a new identity.
-func identityConfig(out io.Writer, nbits int, keyType string, importKey string, mnemonic string) (Identity, error) {
+// IdentityConfig initializes a new identity.
+func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, mnemonic string) (Identity, error) {
 	// TODO guard higher up
 	ident := Identity{}
 
