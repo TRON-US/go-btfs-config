@@ -166,10 +166,19 @@ func migrate_11_ExchangeDomain(cfg *Config) bool {
 	return false
 }
 
-func migrate_12_SolidityDomain(cfg *Config) bool {
-	if cfg.Services.SolidityDomain == "grpc.trongrid.io:50052" {
-		cfg.Services.SolidityDomain = "grpc.trongrid.io:50051"
-		return true
+func migrate_12_FullnodeDomain(cfg *Config) bool {
+	if strings.Contains(cfg.Services.EscrowDomain, "dev") || strings.Contains(cfg.Services.EscrowDomain, "staging") {
+		if len(cfg.Services.FullnodeDomain) == 0 {
+			ds := DefaultServicesConfigTestnet()
+			cfg.Services.FullnodeDomain = ds.FullnodeDomain
+			return true
+		}
+	} else {
+		if len(cfg.Services.FullnodeDomain) == 0 {
+			ds := DefaultServicesConfig()
+			cfg.Services.FullnodeDomain = ds.FullnodeDomain
+			return true
+		}
 	}
 	return false
 }
@@ -193,6 +202,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_9_WalletDomain(cfg) || updated
 	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
 	updated = migrate_11_ExchangeDomain(cfg) || updated
-	updated = migrate_12_SolidityDomain(cfg) || updated
+	updated = migrate_12_FullnodeDomain(cfg) || updated
 	return updated
 }

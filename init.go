@@ -11,7 +11,7 @@ import (
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 
 	ci "github.com/libp2p/go-libp2p-core/crypto"
-	peer "github.com/libp2p/go-libp2p-core/peer"
+	"github.com/libp2p/go-libp2p-core/peer"
 )
 
 func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, mnemonic string, rmOnUnpin bool) (*Config, error) {
@@ -211,7 +211,8 @@ func DefaultServicesConfig() Services {
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
 		ExchangeDomain:     "https://exchange.bt.co",
-		SolidityDomain:     "grpc.trongrid.io:50051",
+		SolidityDomain:     "grpc.trongrid.io:50052",
+		FullnodeDomain:     "grpc.trongrid.io:50051",
 		EscrowPubKeys:      []string{"CAISIQPAfB2Mt2ic+n3JcL4vrKXxBCmB0iNh+5BYiXdJNWed/Q=="},
 		GuardPubKeys:       []string{"CAISIQJ16EiwvGko4SaBEEUFyMdNZp1vKsTLgIXCY6fRa3/Obg=="},
 	}
@@ -225,7 +226,8 @@ func DefaultServicesConfigDev() Services {
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
 		ExchangeDomain:     "https://exchange-dev.bt.co",
-		SolidityDomain:     "grpc.trongrid.io:50051",
+		SolidityDomain:     "grpc.trongrid.io:50052",
+		FullnodeDomain:     "grpc.trongrid.io:50051",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
@@ -240,6 +242,7 @@ func DefaultServicesConfigTestnet() Services {
 		GuardDomain:        "https://guard-staging.btfs.io",
 		ExchangeDomain:     "https://exchange-staging.bt.co",
 		SolidityDomain:     "grpc.trongrid.io:50052",
+		FullnodeDomain:     "grpc.trongrid.io:50051",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
