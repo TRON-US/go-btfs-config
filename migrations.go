@@ -166,6 +166,14 @@ func migrate_11_ExchangeDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_12_SolidityDomain(cfg *Config) bool {
+	if cfg.Services.SolidityDomain == "grpc.trongrid.io:50052" {
+		cfg.Services.SolidityDomain = "grpc.trongrid.io:50051"
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -185,5 +193,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_9_WalletDomain(cfg) || updated
 	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
 	updated = migrate_11_ExchangeDomain(cfg) || updated
+	updated = migrate_12_SolidityDomain(cfg) || updated
 	return updated
 }
