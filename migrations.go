@@ -166,6 +166,23 @@ func migrate_11_ExchangeDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_12_FullnodeDomain(cfg *Config) bool {
+	if strings.Contains(cfg.Services.EscrowDomain, "dev") || strings.Contains(cfg.Services.EscrowDomain, "staging") {
+		if len(cfg.Services.FullnodeDomain) == 0 {
+			ds := DefaultServicesConfigTestnet()
+			cfg.Services.FullnodeDomain = ds.FullnodeDomain
+			return true
+		}
+	} else {
+		if len(cfg.Services.FullnodeDomain) == 0 {
+			ds := DefaultServicesConfig()
+			cfg.Services.FullnodeDomain = ds.FullnodeDomain
+			return true
+		}
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -185,5 +202,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_9_WalletDomain(cfg) || updated
 	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
 	updated = migrate_11_ExchangeDomain(cfg) || updated
+	updated = migrate_12_FullnodeDomain(cfg) || updated
 	return updated
 }
