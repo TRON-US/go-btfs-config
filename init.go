@@ -286,6 +286,9 @@ func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, 
 			return ident, errors.New("cannot decode importKey from a string to byte array")
 		}
 		sk, err = ci.UnmarshalSecp256k1PrivateKey(skBytes)
+		if err != nil {
+			return ident, err
+		}
 		pk = sk.GetPublic()
 	}
 
