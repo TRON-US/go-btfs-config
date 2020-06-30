@@ -55,6 +55,10 @@ func migrate_4_SwarmKey(cfg *Config) bool {
 // for bootstrap nodes.
 // Replaces all bootstrap nodes with default values if so.
 func migrate_5_Bootstrap_node(cfg *Config) bool {
+	// Only migrate on prod settings
+	if cfg.Swarm.SwarmKey != DefaultSwarmKey {
+		return false
+	}
 	obns := []string{
 		"3.120.224.94",
 		"18.196.49.234",
@@ -76,6 +80,10 @@ func migrate_6_EnableAutoRelay(cfg *Config) bool {
 // for testnet bootstrap nodes.
 // Replaces all testnet bootstrap nodes with default values if so.
 func migrate_7_Testnet_Bootstrap_node(cfg *Config) bool {
+	// Only migrate on testnet settings
+	if cfg.Swarm.SwarmKey != DefaultTestnetSwarmKey {
+		return false
+	}
 	obns := []string{
 		"52.57.56.230",
 		"13.59.69.165/tcp/43113",
