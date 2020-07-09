@@ -7,7 +7,14 @@ type UI struct {
 }
 
 type HostUI struct {
-	Initialized bool
+	Initialized     bool
+	ContractManager *ContractManager
+}
+
+type ContractManager struct {
+	LowWater  int
+	HighWater int
+	Threshold int64
 }
 
 type RenterUI struct {
