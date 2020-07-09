@@ -183,6 +183,18 @@ func migrate_12_FullnodeDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_13_HostContractManager(cfg *Config) bool {
+	if cfg.UI.Host.ContractManager == nil {
+		cfg.UI.Host.ContractManager = &ContractManager{
+			LowWater:  100,
+			HighWater: 300,
+			Threshold: 10 * 1000 * 1000,
+		}
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -203,5 +215,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_10_CleanAPIHTTPHeaders(cfg) || updated
 	updated = migrate_11_ExchangeDomain(cfg) || updated
 	updated = migrate_12_FullnodeDomain(cfg) || updated
+	updated = migrate_13_HostContractManager(cfg) || updated
 	return updated
 }
