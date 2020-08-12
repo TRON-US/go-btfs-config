@@ -36,7 +36,7 @@ type Config struct {
 	UI           UI
 	Plugins      Plugins
 
-	Settings     Settings
+	Settings Settings
 }
 
 const (
