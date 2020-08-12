@@ -1,8 +1,10 @@
 package config
 
 type Settings struct {
-	RepairPriceMarket int64
-	RepairPriceCustomize int64
-	ChallengePriceMarket int64
-	ChallengePriceCustomize int64
+	RepairPriceDefault int64
+	RepairPriceCustomized int64
+	RepairCustomizedPrice bool
+	ChallengePriceDefault int64
+	ChallengePriceCustomized int64
+	ChallengeCustomizedPrice bool
 }
