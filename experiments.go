@@ -16,4 +16,6 @@ type Experiments struct {
 	HostsSyncEnabled     bool
 	HostsSyncMode        string
 	DisableAutoUpdate    bool
+	HostRepairEnabled    bool
+	HostChallengeEnabled  bool
 }
