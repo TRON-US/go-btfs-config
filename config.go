@@ -35,8 +35,6 @@ type Config struct {
 	Experimental Experiments
 	UI           UI
 	Plugins      Plugins
-
-	Settings Settings
 }
 
 const (
