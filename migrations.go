@@ -203,6 +203,20 @@ func migrate_13_HostContractManager(cfg *Config) bool {
 	return false
 }
 
+func migrate_14_TestnetBootstrapNodes(cfg *Config) bool {
+	// Only migrate on testnet settings
+	if cfg.Swarm.SwarmKey != DefaultTestnetSwarmKey {
+		return false
+	}
+	obns := []string{
+		"13.59.69.165",
+		"13.229.73.63",
+		"3.126.51.74",
+	}
+	peers, _ := DefaultTestnetBootstrapPeers()
+	return doMigrateNodes(cfg, obns, peers)
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -224,5 +238,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_11_ExchangeDomain(cfg) || updated
 	updated = migrate_12_FullnodeDomain(cfg) || updated
 	updated = migrate_13_HostContractManager(cfg) || updated
+	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
 	return updated
 }
