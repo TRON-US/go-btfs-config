@@ -9,8 +9,10 @@ import (
 const IdentityTag = "Identity"
 const PrivKeyTag = "PrivKey"
 const MnemonicTag = "Mnemonic"
+const Password = "Password"
 const PrivKeySelector = IdentityTag + "." + PrivKeyTag
 const MnemonicSelector = IdentityTag + "." + MnemonicTag
+const PasswordSelector = IdentityTag + "." + Password
 
 // Identity tracks the configuration of the local node's identity.
 type Identity struct {
