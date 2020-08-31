@@ -27,6 +27,7 @@ type Config struct {
 	Swarm     SwarmConfig
 	AutoNAT   AutoNATConfig
 	Pubsub    PubsubConfig
+	Peering   Peering
 
 	Services Services // External service domains and info
 

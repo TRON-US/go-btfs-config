@@ -139,14 +139,14 @@ func addressesConfig() Addresses {
 	return Addresses{
 		Swarm: []string{
 			fmt.Sprintf("/ip4/0.0.0.0/tcp/%d", DefaultSwarmPort),
-			// "/ip4/0.0.0.0/udp/4002/utp", // disabled for now.
 			fmt.Sprintf("/ip6/::/tcp/%d", DefaultSwarmPort),
+			fmt.Sprintf("/ip4/0.0.0.0/udp/%d/quic", DefaultSwarmPort),
+			fmt.Sprintf("/ip6/::/udp/%d/quic", DefaultSwarmPort),
 		},
 		Announce:   []string{},
 		NoAnnounce: []string{},
 		API:        Strings{"/ip4/127.0.0.1/tcp/5001"},
 		Gateway:    Strings{"/ip4/127.0.0.1/tcp/8080"},
-		RemoteAPI:  Strings{"/ip4/127.0.0.1/tcp/5101"},
 	}
 }
 
