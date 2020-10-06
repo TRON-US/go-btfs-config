@@ -147,6 +147,7 @@ func addressesConfig() Addresses {
 		NoAnnounce: []string{},
 		API:        Strings{"/ip4/127.0.0.1/tcp/5001"},
 		Gateway:    Strings{"/ip4/127.0.0.1/tcp/8080"},
+		RemoteAPI:  Strings{"/ip4/127.0.0.1/tcp/5101"},
 	}
 }
 
