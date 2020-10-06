@@ -217,6 +217,14 @@ func migrate_14_TestnetBootstrapNodes(cfg *Config) bool {
 	return doMigrateNodes(cfg, obns, peers)
 }
 
+func migrate_15_MissingRemoteAPI(cfg *Config) bool {
+	if len(cfg.Addresses.RemoteAPI) == 0 {
+		cfg.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -239,5 +247,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_12_FullnodeDomain(cfg) || updated
 	updated = migrate_13_HostContractManager(cfg) || updated
 	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
+	updated = migrate_15_MissingRemoteAPI(cfg) || updated
 	return updated
 }
