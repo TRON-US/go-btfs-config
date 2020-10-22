@@ -420,7 +420,6 @@ func transformDevStorageRepairer(c *Config) error {
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 	}
-	c.Services = DefaultServicesConfigDev()
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
 	return nil
 }
