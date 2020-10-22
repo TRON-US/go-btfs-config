@@ -299,6 +299,48 @@ fetching may be degraded.
 			return nil
 		},
 	},
+	"storage-repairer": {
+		Description: `Configures necessary flags and options for node to become a storage repairer.`,
+
+		Transform: func(c *Config) error {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
+				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.HostRepairEnabled = true
+			c.Experimental.Analytics = true
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
+			return nil
+		},
+	},
+	"storage-repairer-dev": {
+		Description: `[dev] Configures necessary flags and options for node to become a storage repairer.`,
+
+		Transform: func(c *Config) error {
+			if err := transformDevStorageRepairer(c); err != nil {
+				return err
+			}
+			c.Services = DefaultServicesConfigDev()
+			return nil
+		},
+	},
+	"storage-repairer-testnet": {
+		Description: `[testnet] Configures necessary flags and options for node to become a storage repairer.`,
+
+		Transform: func(c *Config) error {
+			if err := transformDevStorageRepairer(c); err != nil {
+				return err
+			}
+			c.Services = DefaultServicesConfigTestnet()
+			return nil
+		},
+	},
 	"storage-client": {
 		Description: `Configures necessary flags and options for node to pay to store files on the network.`,
 
@@ -359,6 +401,24 @@ func transformDevStorageHost(c *Config) error {
 	}
 	if c.Datastore.StorageMax == "10GB" {
 		c.Datastore.StorageMax = "1TB"
+	}
+	c.Services = DefaultServicesConfigDev()
+	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	return nil
+}
+
+// transformDevStorageRepairer transforms common repairer settings among different dev environments
+func transformDevStorageRepairer(c *Config) error {
+	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+	if err != nil {
+		return err
+	}
+	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+	c.Experimental.Libp2pStreamMounting = true
+	c.Experimental.HostRepairEnabled = true
+	c.Experimental.Analytics = true
+	if len(c.Addresses.RemoteAPI) == 0 {
+		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 	}
 	c.Services = DefaultServicesConfigDev()
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
