@@ -8,6 +8,7 @@ type Services struct {
 	ExchangeDomain     string
 	SolidityDomain     string
 	FullnodeDomain     string
+	TrongridDomain     string
 
 	EscrowPubKeys []string
 	GuardPubKeys  []string
