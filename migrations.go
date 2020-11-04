@@ -225,6 +225,23 @@ func migrate_15_MissingRemoteAPI(cfg *Config) bool {
 	return false
 }
 
+func migrate_16_TrongridDomain(cfg *Config) bool {
+	if strings.Contains(cfg.Services.EscrowDomain, "dev") || strings.Contains(cfg.Services.EscrowDomain, "staging") {
+		if len(cfg.Services.TrongridDomain) == 0 {
+			ds := DefaultServicesConfigTestnet()
+			cfg.Services.TrongridDomain = ds.TrongridDomain
+			return true
+		}
+	} else {
+		if len(cfg.Services.TrongridDomain) == 0 {
+			ds := DefaultServicesConfig()
+			cfg.Services.TrongridDomain = ds.TrongridDomain
+			return true
+		}
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -248,5 +265,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_13_HostContractManager(cfg) || updated
 	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
 	updated = migrate_15_MissingRemoteAPI(cfg) || updated
+	updated = migrate_16_TrongridDomain(cfg) || updated
 	return updated
 }
