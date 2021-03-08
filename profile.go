@@ -290,10 +290,9 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to become a storage repairer.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDefaultStorageHost(c); err != nil {
+			if err := transformDefaultStorageRepairer(c); err != nil {
 				return err
 			}
-			c.Experimental.HostRepairEnabled = true
 			return nil
 		},
 	},
@@ -301,10 +300,9 @@ fetching may be degraded.
 		Description: `[dev] Configures necessary flags and options for node to become a storage repairer.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDevStorageHost(c); err != nil {
+			if err := transformDevStorageRepairer(c); err != nil {
 				return err
 			}
-			c.Experimental.HostRepairEnabled = true
 			c.Services = DefaultServicesConfigDev()
 			return nil
 		},
@@ -313,10 +311,9 @@ fetching may be degraded.
 		Description: `[testnet] Configures necessary flags and options for node to become a storage repairer.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDevStorageHost(c); err != nil {
+			if err := transformDevStorageRepairer(c); err != nil {
 				return err
 			}
-			c.Experimental.HostRepairEnabled = true
 			c.Services = DefaultServicesConfigTestnet()
 			return nil
 		},
@@ -428,6 +425,17 @@ func transformDefaultStorageHost(c *Config) error {
 	return nil
 }
 
+func transformDefaultStorageRepairer(c *Config) error {
+	c.Experimental.HostRepairEnabled = true
+	c.Experimental.HostsSyncEnabled = true
+	c.Experimental.HostsSyncMode = DefaultHostsSyncMode.String()
+	err := transformDefaultStorageHost(c)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // transformDevStorageHost transforms common host settings among different dev environments
 func transformDevStorageHost(c *Config) error {
 	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
@@ -446,6 +454,18 @@ func transformDevStorageHost(c *Config) error {
 	}
 	c.Services = DefaultServicesConfigDev()
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	return nil
+}
+
+// transformDevStorageRepairer transforms common repairer settings among different dev environments
+func transformDevStorageRepairer(c *Config) error {
+	c.Experimental.HostRepairEnabled = true
+	c.Experimental.HostsSyncEnabled = true
+	c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
+	err := transformDevStorageHost(c)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
