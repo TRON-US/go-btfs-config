@@ -242,6 +242,15 @@ func migrate_16_TrongridDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_17_TrongridIp(cfg *Config) bool {
+	if len(cfg.Services.TrongridIp) == 0 {
+		ds := DefaultServicesConfig()
+		cfg.Services.TrongridIp = ds.TrongridIp
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -266,5 +275,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
 	updated = migrate_15_MissingRemoteAPI(cfg) || updated
 	updated = migrate_16_TrongridDomain(cfg) || updated
+	updated = migrate_17_TrongridIp(cfg) || updated
 	return updated
 }

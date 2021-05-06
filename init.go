@@ -215,6 +215,7 @@ func DefaultServicesConfig() Services {
 		SolidityDomain:     "grpc.trongrid.io:50052",
 		FullnodeDomain:     "grpc.trongrid.io:50051",
 		TrongridDomain:     "https://api.trongrid.io",
+		TrongridIp:         "http://13.127.47.162",
 		EscrowPubKeys:      []string{"CAISIQPAfB2Mt2ic+n3JcL4vrKXxBCmB0iNh+5BYiXdJNWed/Q=="},
 		GuardPubKeys:       []string{"CAISIQJ16EiwvGko4SaBEEUFyMdNZp1vKsTLgIXCY6fRa3/Obg=="},
 	}
@@ -231,6 +232,7 @@ func DefaultServicesConfigDev() Services {
 		SolidityDomain:     "grpc.trongrid.io:50052",
 		FullnodeDomain:     "grpc.trongrid.io:50051",
 		TrongridDomain:     "https://api.shasta.trongrid.io",
+		TrongridIp:         "http://13.127.47.162",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
@@ -247,6 +249,7 @@ func DefaultServicesConfigTestnet() Services {
 		SolidityDomain:     "grpc.trongrid.io:50052",
 		FullnodeDomain:     "grpc.trongrid.io:50051",
 		TrongridDomain:     "https://api.shasta.trongrid.io",
+		TrongridIp:         "http://13.127.47.162",
 		EscrowPubKeys:      []string{"CAISIQJOcRK0q4TOwpswAkvMMq33ksQfhplEyhHcZnEUFbthQg=="},
 		GuardPubKeys:       []string{"CAISIQJhPBQWKPPjYcuPWR9sl+QlN0wJSRbQs3yUKmggvubXwg=="},
 	}
