@@ -9,6 +9,7 @@ type Services struct {
 	SolidityDomain     string
 	FullnodeDomain     string
 	TrongridDomain     string
+	TrongridIp         string
 
 	EscrowPubKeys []string
 	GuardPubKeys  []string
