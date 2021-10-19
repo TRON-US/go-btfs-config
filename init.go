@@ -92,7 +92,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			StorageClientEnabled: true,
 			RemoveOnUnpin:        rmOnUnpin,
 			HostsSyncEnabled:     DefaultHostsSyncEnabled,
-			HostsSyncFlag:        false,
+			HostsSyncFlag:        true,
 			HostsSyncMode:        DefaultHostsSyncMode.String(),
 		},
 	}
