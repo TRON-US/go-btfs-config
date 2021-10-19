@@ -101,7 +101,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 
 // DefaultHostSyncEnabled is the default value for the periodic hosts sync
 // from hub
-const DefaultHostsSyncEnabled = true
+const DefaultHostsSyncEnabled = false
 
 // DefaultHostsSyncMode is the default value for the hosts sync mode
 // from hub
