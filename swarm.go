@@ -23,7 +23,7 @@ type SwarmConfig struct {
 	// traffic between other nodes.
 	EnableRelayHop bool
 
-	SwarmKey                string
+	SwarmKey string
 
 	// EnableAutoRelay enables the "auto relay" feature.
 	//

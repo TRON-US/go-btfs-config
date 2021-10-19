@@ -242,6 +242,15 @@ func migrate_16_TrongridDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_17_Sync_Hosts(cfg *Config) bool {
+	if cfg.Experimental.HostsSyncFlag == false {
+		cfg.Experimental.HostsSyncEnabled = false
+		cfg.Experimental.HostsSyncFlag = true
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -266,5 +275,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
 	updated = migrate_15_MissingRemoteAPI(cfg) || updated
 	updated = migrate_16_TrongridDomain(cfg) || updated
+	updated = migrate_17_Sync_Hosts(cfg) || updated
 	return updated
 }
