@@ -292,7 +292,7 @@ fetching may be degraded.
 		Description: `[testnet] Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDevStorageHost(c); err != nil {
+			if err := transformTestnetStorageHost(c); err != nil {
 				return err
 			}
 			c.Services = DefaultServicesConfigTestnet()
@@ -387,8 +387,29 @@ fetching may be degraded.
 }
 
 // transformDevStorageHost transforms common host settings among different dev environments
-func transformDevStorageHost(c *Config) error {
+func transformTestnetStorageHost(c *Config) error {
 	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
+	if err != nil {
+		return err
+	}
+	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+	c.Experimental.Libp2pStreamMounting = true
+	c.Experimental.StorageHostEnabled = true
+	c.Experimental.Analytics = true
+	if len(c.Addresses.RemoteAPI) == 0 {
+		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+	}
+	if c.Datastore.StorageMax == "10GB" {
+		c.Datastore.StorageMax = "1TB"
+	}
+	c.Services = DefaultServicesConfigDev()
+	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	return nil
+}
+
+// transformDevStorageHost transforms common host settings among different dev environments
+func transformDevStorageHost(c *Config) error {
+	bootstrapPeers, err := DefaultDevBootstrapPeers()
 	if err != nil {
 		return err
 	}

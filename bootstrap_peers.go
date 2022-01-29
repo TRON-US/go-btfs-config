@@ -55,6 +55,12 @@ var DefaultTestnetBootstrapAddresses = []string{
 	"/ip4/54.151.185.243/tcp/4003/p2p/16Uiu2HAmSg1CHTDNEazJnDGfhA5pGbw1RZK1g2HZJmi3JVPkHGW8",
 }
 
+var DefaultDevBootstrapAddresses = []string{
+	"/ip4/13.214.51.168/tcp/4001/p2p/16Uiu2HAmD4XReZAH4ZtoPTgwbZyjgtNBavxhurtndCwfRQsonEdZ",
+	"/ip4/34.215.186.122/tcp/4001/p2p/16Uiu2HAmSqezDXd1zYZkK7iSjJ3aS9CK44dGC3bvypau2bUw9iYz",
+	"/ip4/3.111.112.81/tcp/4001/p2p/16Uiu2HAm25sjweXBPpcnwFaH44vg76apL4S1WpRdd14kQcogdrtY",
+}
+
 // ErrInvalidPeerAddr signals an address is not a valid peer address.
 var ErrInvalidPeerAddr = errors.New("invalid peer address")
 
@@ -78,6 +84,16 @@ func DefaultTestnetBootstrapPeers() ([]peer.AddrInfo, error) {
 	ps, err := ParseBootstrapPeers(DefaultTestnetBootstrapAddresses)
 	if err != nil {
 		return nil, fmt.Errorf(`Failed to parse hardcoded testnet bootstrap peers: %s
+This is a problem with the BTFS codebase.
+Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
+	}
+	return ps, nil
+}
+
+func DefaultDevBootstrapPeers() ([]peer.AddrInfo, error) {
+	ps, err := ParseBootstrapPeers(DefaultDevBootstrapAddresses)
+	if err != nil {
+		return nil, fmt.Errorf(`Failed to parse hardcoded dev bootstrap peers: %s
 This is a problem with the BTFS codebase.
 Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
 	}
