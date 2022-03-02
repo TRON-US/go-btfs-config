@@ -15,7 +15,7 @@ import (
 
 // ErrNotInitialized is returned when we fail to read the config because the
 // repo doesn't exist.
-var ErrNotInitialized = errors.New("ipfs not initialized, please run 'ipfs init'")
+var ErrNotInitialized = errors.New("btfs not initialized, please run 'btfs init'")
 
 // ReadConfigFile reads the config from `filename` into `cfg`.
 func ReadConfigFile(filename string, cfg interface{}) error {

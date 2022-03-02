@@ -16,6 +16,8 @@ const MnemonicSelector = IdentityTag + "." + MnemonicTag
 type Identity struct {
 	PeerID            string
 	PrivKey           string `json:",omitempty"`
+	HexPrivKey        string `json:",omitempty"`
+	BttcAddr          string `json:",omitempty"`
 	Mnemonic          string `json:",omitempty"`
 	EncryptedMnemonic string `json:",omitempty"`
 	EncryptedPrivKey  string `json:",omitempty"`
