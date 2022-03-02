@@ -14,6 +14,7 @@ import (
 
 // Config is used to load ipfs config files.
 type Config struct {
+	ChainInfo ChainInfo // local node's chain info
 	Identity  Identity  // local node's peer identity
 	Datastore Datastore // local node's storage
 	Addresses Addresses // local node's addresses

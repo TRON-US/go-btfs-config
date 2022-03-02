@@ -95,6 +95,9 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			HostsSyncFlag:        true,
 			HostsSyncMode:        DefaultHostsSyncMode.String(),
 		},
+		ChainInfo: ChainInfo{
+			ChainId: bttcChainID,
+		},
 	}
 
 	return conf, nil

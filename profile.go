@@ -274,6 +274,9 @@ fetching may be degraded.
 			}
 			c.Services = DefaultServicesConfig()
 			c.Swarm.SwarmKey = DefaultSwarmKey
+			c.ChainInfo = ChainInfo{
+				ChainId: bttcChainID,
+			}
 			return nil
 		},
 	},
@@ -404,6 +407,9 @@ func transformDevStorageHost(c *Config) error {
 	}
 	c.Services = DefaultServicesConfigDev()
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	c.ChainInfo = ChainInfo{
+		ChainId: bttcTestChainID,
+	}
 	return nil
 }
 
