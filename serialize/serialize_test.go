@@ -39,7 +39,7 @@ func TestConfig(t *testing.T) {
 	}
 }
 
-func TestMountsConfigPatching(t *testing.T) {
+func TestMountsConfigPatch(t *testing.T) {
 	const (
 		newConfigFile     = "./config_new.json"
 		changedConfigFile = "./config_changed.json"
