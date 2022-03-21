@@ -56,6 +56,18 @@ func encode(w io.Writer, value interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	// rewrite BTFS mounts config with IPFS mounts config
+	var cfg config.Config
+	if err := json.Unmarshal(buf, &cfg); err != nil {
+		return err
+	}
+	cfg.Mounts.BTFS = cfg.Mounts.IPFS
+	cfg.Mounts.BTNS = cfg.Mounts.IPNS
+	cfg.Mounts.IPFS = ""
+	cfg.Mounts.IPNS = ""
+	buf, _ = config.Marshal(cfg)
+
 	_, err = w.Write(buf)
 	return err
 }
@@ -66,6 +78,15 @@ func Load(filename string) (*config.Config, error) {
 	err := ReadConfigFile(filename, &cfg)
 	if err != nil {
 		return nil, err
+	}
+
+	// IPFS and IPNS field value will be used when old config firstly be loaded
+	// BTFS and BTNS field value will be used after new config field be written into file
+	if cfg.Mounts.BTFS != "" {
+		cfg.Mounts.IPFS = cfg.Mounts.BTFS
+	}
+	if cfg.Mounts.BTNS != "" {
+		cfg.Mounts.IPNS = cfg.Mounts.BTNS
 	}
 
 	return &cfg, err
