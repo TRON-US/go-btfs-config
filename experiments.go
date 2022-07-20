@@ -19,5 +19,5 @@ type Experiments struct {
 	HostRepairEnabled    bool
 	HostChallengeEnabled bool
 	ReportOnline         bool
-	ReportStatus         bool
+	ReportStatusContract bool
 }
