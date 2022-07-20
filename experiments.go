@@ -18,4 +18,6 @@ type Experiments struct {
 	DisableAutoUpdate    bool
 	HostRepairEnabled    bool
 	HostChallengeEnabled bool
+	ReportOnline         bool
+	ReportStatus         bool
 }

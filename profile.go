@@ -266,6 +266,8 @@ fetching may be degraded.
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageHostEnabled = true
 			c.Experimental.Analytics = true
+			c.Experimental.ReportOnline = true
+			c.Experimental.ReportStatus = true
 			if len(c.Addresses.RemoteAPI) == 0 {
 				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 			}
@@ -399,6 +401,8 @@ func transformDevStorageHost(c *Config) error {
 	c.Experimental.Libp2pStreamMounting = true
 	c.Experimental.StorageHostEnabled = true
 	c.Experimental.Analytics = true
+	c.Experimental.ReportOnline = true
+	c.Experimental.ReportStatus = true
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 	}
