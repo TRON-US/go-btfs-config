@@ -212,6 +212,7 @@ func flatfsSpec() map[string]interface{} {
 func DefaultServicesConfig() Services {
 	return Services{
 		StatusServerDomain: "https://status.btfs.io",
+		OnlineServerDomain: "https://online.btfs.io",
 		HubDomain:          "https://hub.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
@@ -228,6 +229,7 @@ func DefaultServicesConfig() Services {
 func DefaultServicesConfigDev() Services {
 	return Services{
 		StatusServerDomain: "https://status-dev.btfs.io",
+		OnlineServerDomain: "https://online-dev.btfs.io",
 		HubDomain:          "https://hub-dev.btfs.io",
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
@@ -244,6 +246,7 @@ func DefaultServicesConfigDev() Services {
 func DefaultServicesConfigTestnet() Services {
 	return Services{
 		StatusServerDomain: "https://status-staging.btfs.io",
+		OnlineServerDomain: "https://online-staging.btfs.io",
 		HubDomain:          "https://hub-staging.btfs.io",
 		EscrowDomain:       "https://escrow-staging.btfs.io",
 		GuardDomain:        "https://guard-staging.btfs.io",
