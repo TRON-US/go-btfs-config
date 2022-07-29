@@ -357,6 +357,7 @@ fetching may be degraded.
 			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
+			c.Experimental.StorageHostEnabled = false
 			c.Experimental.HostsSyncEnabled = true
 			c.Experimental.HostsSyncMode = DefaultHostsSyncMode.String()
 			if len(c.Addresses.RemoteAPI) == 0 {
@@ -443,10 +444,14 @@ func transformDevStorageClient(c *Config) error {
 	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 	c.Experimental.Libp2pStreamMounting = true
 	c.Experimental.StorageClientEnabled = true
+	c.Experimental.StorageHostEnabled = false
 	c.Experimental.HostsSyncEnabled = true
 	c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+	}
+	c.ChainInfo = ChainInfo{
+		ChainId: bttcTestChainID,
 	}
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
 	return nil
