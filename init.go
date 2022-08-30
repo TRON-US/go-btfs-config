@@ -214,7 +214,7 @@ func DefaultServicesConfig() Services {
 	return Services{
 		StatusServerDomain: "https://status.btfs.io",
 		OnlineServerDomain: "https://online.btfs.io",
-		HubDomain:          "https://hub.btfs.io",
+		HubDomain:          "https://score.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
 		ExchangeDomain:     "https://exchange.bt.co",
@@ -231,7 +231,7 @@ func DefaultServicesConfigDev() Services {
 	return Services{
 		StatusServerDomain: "https://status-dev.btfs.io",
 		OnlineServerDomain: "https://online-dev.btfs.io",
-		HubDomain:          "https://hub-dev.btfs.io",
+		HubDomain:          "https://score-dev.btfs.io",
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
 		ExchangeDomain:     "https://exchange-dev.bt.co",
@@ -248,7 +248,7 @@ func DefaultServicesConfigTestnet() Services {
 	return Services{
 		StatusServerDomain: "https://status-staging.btfs.io",
 		OnlineServerDomain: "https://online-staging.btfs.io",
-		HubDomain:          "https://hub-staging.btfs.io",
+		HubDomain:          "https://score-staging.btfs.io",
 		EscrowDomain:       "https://escrow-staging.btfs.io",
 		GuardDomain:        "https://guard-staging.btfs.io",
 		ExchangeDomain:     "https://exchange-staging.bt.co",
