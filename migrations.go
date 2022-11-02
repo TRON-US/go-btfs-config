@@ -21,11 +21,11 @@ func migrate_1_Services(cfg *Config) bool {
 }
 
 func migrate_2_StatusUrl(cfg *Config) bool {
-	if strings.Contains(cfg.Services.StatusServerDomain, "db.btfs.io") {
-		ds := DefaultServicesConfig()
-		cfg.Services.StatusServerDomain = ds.StatusServerDomain
-		return true
-	}
+	//if strings.Contains(cfg.Services.StatusServerDomain, "db.btfs.io") {
+	//	ds := DefaultServicesConfig()
+	//	cfg.Services.StatusServerDomain = ds.StatusServerDomain
+	//	return true
+	//}
 	return false
 }
 
