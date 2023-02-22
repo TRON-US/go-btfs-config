@@ -10,8 +10,8 @@ import (
 
 	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
 
-	ci "github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
+	ci "github.com/libp2p/go-libp2p/core/crypto"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, mnemonic string, rmOnUnpin bool) (*Config, error) {
@@ -47,7 +47,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 		},
 
 		Routing: Routing{
-			Type: "dht",
+			Type: NewOptionalString("dht"),
 		},
 
 		// setup the node mount points.
@@ -74,16 +74,16 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 		},
 		Services: DefaultServicesConfig(),
 		Reprovider: Reprovider{
-			Interval: "12h",
-			Strategy: "all",
+			Interval: NewOptionalDuration(time.Hour * 12),
+			Strategy: NewOptionalString("all"),
 		},
 		Swarm: SwarmConfig{
 			SwarmKey: DefaultSwarmKey,
 			ConnMgr: ConnMgr{
-				LowWater:    DefaultConnMgrLowWater,
-				HighWater:   DefaultConnMgrHighWater,
-				GracePeriod: DefaultConnMgrGracePeriod.String(),
-				Type:        "basic",
+				LowWater:    &OptionalInteger{value: GetAddrOfConst(DefaultConnMgrLowWater)},
+				HighWater:   &OptionalInteger{value: GetAddrOfConst(DefaultConnMgrHighWater)},
+				GracePeriod: NewOptionalDuration(DefaultConnMgrGracePeriod),
+				Type:        NewOptionalString("basic"),
 			},
 			EnableAutoRelay: DefaultEnableAutoRelay,
 		},
@@ -124,6 +124,10 @@ const DefaultConnMgrLowWater = 600
 // DefaultConnMgrGracePeriod is the default value for the connection managers
 // grace period
 const DefaultConnMgrGracePeriod = time.Second * 20
+
+// DefaultConnMgrType is the default value for the connection managers
+// type.
+const DefaultConnMgrType = "basic"
 
 // DefaultSwarmKey is the default swarm key for mainnet BTFS
 const DefaultSwarmKey = `/key/swarm/psk/1.0.0/
@@ -311,7 +315,7 @@ func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, 
 
 	// currently storing key unencrypted. in the future we need to encrypt it.
 	// TODO(security)
-	skbytes, err := sk.Bytes()
+	skbytes, err := ci.MarshalPrivateKey(sk)
 	if err != nil {
 		return ident, err
 	}
@@ -325,4 +329,9 @@ func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, 
 	ident.PeerID = id.Pretty()
 	fmt.Fprintf(out, "peer identity: %s\n", ident.PeerID)
 	return ident, nil
+}
+
+func GetAddrOfConst(i int) *int64 {
+	var r = int64(i)
+	return &r
 }

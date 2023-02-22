@@ -20,4 +20,5 @@ type Experiments struct {
 	HostChallengeEnabled bool
 	ReportOnline         bool
 	ReportStatusContract bool
+	AcceleratedDHTClient bool
 }

@@ -29,14 +29,16 @@ type Config struct {
 	AutoNAT   AutoNATConfig
 	Pubsub    PubsubConfig
 	Peering   Peering
-
-	Services Services // External service domains and info
+	DNS       DNS
+	Services  Services // External service domains and info
 
 	Provider     Provider
 	Reprovider   Reprovider
 	Experimental Experiments
 	UI           UI
 	Plugins      Plugins
+
+	Internal Internal // experimental/unstable options
 }
 
 const (
