@@ -39,6 +39,8 @@ type Config struct {
 	Plugins      Plugins
 
 	Internal Internal // experimental/unstable options
+
+	SimpleMode bool
 }
 
 const (
