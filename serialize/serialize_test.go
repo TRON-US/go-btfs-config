@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	config "github.com/TRON-US/go-btfs-config"
+	config "github.com/bittorrent/go-btfs-config"
 )
 
 func TestConfig(t *testing.T) {

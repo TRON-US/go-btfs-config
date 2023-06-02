@@ -8,7 +8,7 @@ import (
 	"io"
 	"time"
 
-	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+	hubpb "github.com/bittorrent/go-btfs-common/protos/hub"
 
 	ci "github.com/libp2p/go-libp2p/core/crypto"
 	"github.com/libp2p/go-libp2p/core/peer"
