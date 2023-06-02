@@ -69,7 +69,7 @@ func DefaultBootstrapPeers() ([]peer.AddrInfo, error) {
 	if err != nil {
 		return nil, fmt.Errorf(`Failed to parse hardcoded bootstrap peers: %s
 This is a problem with the BTFS codebase.
-Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
+Please report it to https://github.com/bittorrent/go-btfs/issues.`, err)
 	}
 	return ps, nil
 }
@@ -78,7 +78,7 @@ func DefaultTestnetBootstrapPeers() ([]peer.AddrInfo, error) {
 	if err != nil {
 		return nil, fmt.Errorf(`Failed to parse hardcoded testnet bootstrap peers: %s
 This is a problem with the BTFS codebase.
-Please report it to https://github.com/TRON-US/go-btfs/issues.`, err)
+Please report it to https://github.com/bittorrent/go-btfs/issues.`, err)
 	}
 	return ps, nil
 }

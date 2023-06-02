@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bittorrent/go-btfs-config"
 	"io"
 	"os"
 	"path/filepath"
-
-	"github.com/TRON-US/go-btfs-config"
 
 	"github.com/facebookgo/atomicfile"
 )

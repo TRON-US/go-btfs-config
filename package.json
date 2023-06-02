@@ -1,10 +1,10 @@
 {
   "author": "magik6k",
   "bugs": {
-    "url": "https://github.com/TRON-US/go-btfs-config"
+    "url": "https://github.com/bittorrent/go-btfs-config"
   },
   "gx": {
-    "dvcsimport": "github.com/TRON-US/go-btfs-config"
+    "dvcsimport": "github.com/bittorrent/go-btfs-config"
   },
   "gxDependencies": [
     {
