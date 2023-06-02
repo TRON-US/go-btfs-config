@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/libp2p/go-libp2p-core/peer"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func migrate_1_Services(cfg *Config) bool {
@@ -21,11 +21,11 @@ func migrate_1_Services(cfg *Config) bool {
 }
 
 func migrate_2_StatusUrl(cfg *Config) bool {
-	if strings.Contains(cfg.Services.StatusServerDomain, "db.btfs.io") {
-		ds := DefaultServicesConfig()
-		cfg.Services.StatusServerDomain = ds.StatusServerDomain
-		return true
-	}
+	//if strings.Contains(cfg.Services.StatusServerDomain, "db.btfs.io") {
+	//	ds := DefaultServicesConfig()
+	//	cfg.Services.StatusServerDomain = ds.StatusServerDomain
+	//	return true
+	//}
 	return false
 }
 
@@ -60,9 +60,16 @@ func migrate_5_Bootstrap_node(cfg *Config) bool {
 		return false
 	}
 	obns := []string{
-		"3.120.224.94",
-		"18.196.49.234",
-		"/btfs/", // migrate to ipfs 0.5.0+ protocol
+		"/ip4/34.213.5.20/tcp/4001/p2p/QmQVQBsM7uoJy8hATjTm51uSAkx2y3iGLhSwA6LWLa7iQJ",
+		"/ip4/52.77.240.134/tcp/4001/p2p/QmURPwdLYesWUDB66EGXvDvwcyV44rVRqV2iGNqKN24eVu",
+		"/ip4/3.126.224.22/tcp/4001/p2p/QmWTTmvchTodUaVvuKZMo67xk7ZgkxJf4nBo7SZry3vGU5",
+		"/ip4/18.194.71.27/tcp/4001/p2p/QmYHkY5CrWcvgaDo4PfvzTQgaZtfaqRGDjwW1MrHUj8cLK",
+		"/ip4/18.237.54.123/tcp/4001/p2p/QmWJWGxKKaqZUW4xga2BCzT5FBtYDL8Cc5Q5jywd6xPt1g",
+		"/ip4/54.213.128.120/tcp/4001/p2p/QmWm3vBCRuZcJMUT9jDZysoYBb66aokmSReX26UaMk8qq5",
+		"/ip4/18.237.202.91/tcp/4001/p2p/QmbVFdiNkvxtc7Nni7yBWAgtHg8MuyhaZ5mDaYR2ZrhhvN",
+		"/ip4/13.229.45.41/tcp/4001/p2p/QmX7RZXh27AX8iv2BKLGMgPBiuUpEy8p4LFXgtXAfaZDn9",
+		"/ip4/54.254.227.188/tcp/4001/p2p/QmYqCq3PasrzLr3PxtLo5D6spEAJ836W9Re9Eo4zUou45U",
+		"/ip4/54.93.47.134/tcp/4001/p2p/QmeHaHe7WvjeY37z5MYC3qYQcQcuvDwUhwTXtP3KhKLXXK",
 	}
 	peers, _ := DefaultBootstrapPeers()
 	return doMigrateNodes(cfg, obns, peers)
@@ -242,6 +249,15 @@ func migrate_16_TrongridDomain(cfg *Config) bool {
 	return false
 }
 
+func migrate_17_Sync_Hosts(cfg *Config) bool {
+	if cfg.Experimental.HostsSyncFlag == false {
+		cfg.Experimental.HostsSyncEnabled = false
+		cfg.Experimental.HostsSyncFlag = true
+		return true
+	}
+	return false
+}
+
 // MigrateConfig migrates config options to the latest known version
 // It may correct incompatible configs as well
 // inited = just initialized in the same call
@@ -266,5 +282,6 @@ func MigrateConfig(cfg *Config, inited, hasHval bool) bool {
 	updated = migrate_14_TestnetBootstrapNodes(cfg) || updated
 	updated = migrate_15_MissingRemoteAPI(cfg) || updated
 	updated = migrate_16_TrongridDomain(cfg) || updated
+	updated = migrate_17_Sync_Hosts(cfg) || updated
 	return updated
 }

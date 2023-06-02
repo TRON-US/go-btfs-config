@@ -15,7 +15,7 @@ import (
 
 // ErrNotInitialized is returned when we fail to read the config because the
 // repo doesn't exist.
-var ErrNotInitialized = errors.New("ipfs not initialized, please run 'ipfs init'")
+var ErrNotInitialized = errors.New("btfs not initialized, please run 'btfs init'")
 
 // ReadConfigFile reads the config from `filename` into `cfg`.
 func ReadConfigFile(filename string, cfg interface{}) error {
@@ -56,6 +56,19 @@ func encode(w io.Writer, value interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	// Before writing the file, replace the content of "BTFS" and "BTNS" fields with the
+	// content of "IPFS" and "IPNS", so the changes will be applied.
+	var cfg config.Config
+	if err := json.Unmarshal(buf, &cfg); err != nil {
+		return err
+	}
+	cfg.Mounts.BTFS = cfg.Mounts.IPFS
+	cfg.Mounts.BTNS = cfg.Mounts.IPNS
+	cfg.Mounts.IPFS = ""
+	cfg.Mounts.IPNS = ""
+	buf, _ = config.Marshal(cfg)
+
 	_, err = w.Write(buf)
 	return err
 }
@@ -66,6 +79,17 @@ func Load(filename string) (*config.Config, error) {
 	err := ReadConfigFile(filename, &cfg)
 	if err != nil {
 		return nil, err
+	}
+
+	// After reading config from the file, try to rewrite content of "IPFS" and "IPNS" fileds with the content of "BTFS" and "BTNS" fields.
+	// The content of "IPFS" and "IPNS" fields will still be used when old config firstly be loaded,
+	// and the content of "BTFS" and "BTNS" fields will be used
+	// after they be written into the file.
+	if cfg.Mounts.BTFS != "" {
+		cfg.Mounts.IPFS = cfg.Mounts.BTFS
+	}
+	if cfg.Mounts.BTNS != "" {
+		cfg.Mounts.IPNS = cfg.Mounts.BTNS
 	}
 
 	return &cfg, err

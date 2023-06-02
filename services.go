@@ -1,7 +1,8 @@
 package config
 
 type Services struct {
-	StatusServerDomain string
+	//StatusServerDomain string
+	OnlineServerDomain string
 	HubDomain          string
 	EscrowDomain       string
 	GuardDomain        string
