@@ -35,6 +35,16 @@ var DefaultBootstrapAddresses = []string{
 	"/ip4/15.184.174.48/tcp/4001/p2p/16Uiu2HAm6Bkxj81JQxa67aja7UWznjTgzAAVzPAqZMVD6oGpw7ST",
 	"/ip4/15.184.108.65/tcp/4001/p2p/16Uiu2HAkzRyGYEba2B3SBXdwp328LNFhRG4qhJVZrN6tsJK5KKu5",
 	"/ip4/15.184.96.102/tcp/4001/p2p/16Uiu2HAmFVWTvouWpQTRjMb4bUaidfLzsH2RVogcGHb6RwvPSxuT",
+	"/ip4/16.24.14.84/tcp/4001/p2p/16Uiu2HAmM96uUH53Ab9JBWfuwUBXJvGMbfVbsBXiGZGqStP93DTS",
+	"/ip4/16.24.16.4/tcp/4001/p2p/16Uiu2HAmJ6vEtzmmC6nM6SJwHA9NCPwTRWy7K5WT2UFXDqzJFGSf",
+	"/ip4/3.76.64.148/tcp/4001/p2p/16Uiu2HAmFc3snGkwK76yMYMAkHWhq6GD29w7m8Sa7kUciUK5xovu",
+	"/ip4/3.78.178.244/tcp/4001/p2p/16Uiu2HAmHeUHakzYG1YWfWoSriVwKhSHYz88rL3USmgeRpqtWqMw",
+	"/ip4/3.7.21.138/tcp/4001/p2p/16Uiu2HAm7QD77kxSKf1GTM3YkrYp8vkhUwS2ySJPht9jALeaHaft",
+	"/ip4/43.204.199.237/tcp/4001/p2p/16Uiu2HAm3tpaz9zgqB4i2FEwX7dwTJzv88Krpdy3kRecXZos3WdM",
+	"/ip4/35.155.192.241/tcp/4001/p2p/16Uiu2HAm29iAxcKRPNRBVMYCz455uck5o7KmdPJ9GQ5BKvpxxca9",
+	"/ip4/35.83.203.96/tcp/4001/p2p/16Uiu2HAmNnKCdkBKdoPo4sXSLhDgXvPmCi7NCjo8cfcP5RRb4mKL",
+	"/ip4/54.69.57.58/tcp/4001/p2p/16Uiu2HAmNDZWZtyRNZMLQ88933SFcVp2gtb99aQVbADXcCFcjFn9",
+	"/ip4/35.164.151.55/tcp/4001/p2p/16Uiu2HAmMgufksaU9aaenq2bNtGnG5QokCS1xdzJwUS6yRtakhbs",
 }
 var DefaultTestnetBootstrapAddresses = []string{
 	"/ip4/18.224.174.215/tcp/45301/p2p/16Uiu2HAmFFwNdgSoLhfgJUPEfPEVodppRxaeZBVpAvrH5s3qSkWo",
