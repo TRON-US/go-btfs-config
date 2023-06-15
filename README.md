@@ -3,7 +3,7 @@ go-btfs-config
 
 > go-btfs configuration datastructure.
 
-Documentation lives in the go-btfs repo: [docs/config.md](https://github.com/TRON-US/go-btfs/blob/master/docs/config.md).
+Documentation lives in the go-btfs repo: [docs/config.md](https://github.com/bittorrent/go-btfs/blob/master/docs/config.md).
 
 ## Table of Contents
 
@@ -18,4 +18,4 @@ Small note: If editing the Readme, please conform to the [standard-readme](https
 
 ## License
 
-MIT © TRON-US
+MIT © Bittorrent

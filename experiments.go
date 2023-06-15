@@ -13,8 +13,12 @@ type Experiments struct {
 	Analytics            bool
 	RemoveOnUnpin        bool
 	HostsSyncEnabled     bool
+	HostsSyncFlag        bool
 	HostsSyncMode        string
 	DisableAutoUpdate    bool
 	HostRepairEnabled    bool
 	HostChallengeEnabled bool
+	ReportOnline         bool
+	ReportStatusContract bool
+	AcceleratedDHTClient bool
 }

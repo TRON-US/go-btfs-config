@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/base64"
 
-	ic "github.com/libp2p/go-libp2p-core/crypto"
+	ic "github.com/libp2p/go-libp2p/core/crypto"
 )
 
 const IdentityTag = "Identity"
@@ -16,6 +16,8 @@ const MnemonicSelector = IdentityTag + "." + MnemonicTag
 type Identity struct {
 	PeerID            string
 	PrivKey           string `json:",omitempty"`
+	HexPrivKey        string `json:",omitempty"`
+	BttcAddr          string `json:",omitempty"`
 	Mnemonic          string `json:",omitempty"`
 	EncryptedMnemonic string `json:",omitempty"`
 	EncryptedPrivKey  string `json:",omitempty"`

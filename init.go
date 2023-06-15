@@ -8,10 +8,10 @@ import (
 	"io"
 	"time"
 
-	hubpb "github.com/tron-us/go-btfs-common/protos/hub"
+	hubpb "github.com/bittorrent/go-btfs-common/protos/hub"
 
-	ci "github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
+	ci "github.com/libp2p/go-libp2p/core/crypto"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, mnemonic string, rmOnUnpin bool) (*Config, error) {
@@ -47,7 +47,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 		},
 
 		Routing: Routing{
-			Type: "dht",
+			Type: NewOptionalString("dht"),
 		},
 
 		// setup the node mount points.
@@ -66,33 +66,38 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 			NoFetch:      false,
 			PathPrefixes: []string{},
 			HTTPHeaders: map[string][]string{
-				"Access-Control-Allow-Origin":  []string{"*"},
-				"Access-Control-Allow-Methods": []string{"GET"},
-				"Access-Control-Allow-Headers": []string{"X-Requested-With", "Range", "User-Agent"},
+				"Access-Control-Allow-Origin":  {"*"},
+				"Access-Control-Allow-Methods": {"GET"},
+				"Access-Control-Allow-Headers": {"X-Requested-With", "Range", "User-Agent"},
 			},
 			APICommands: []string{},
 		},
 		Services: DefaultServicesConfig(),
 		Reprovider: Reprovider{
-			Interval: "12h",
-			Strategy: "all",
+			Interval: NewOptionalDuration(time.Hour * 12),
+			Strategy: NewOptionalString("all"),
 		},
 		Swarm: SwarmConfig{
 			SwarmKey: DefaultSwarmKey,
 			ConnMgr: ConnMgr{
-				LowWater:    DefaultConnMgrLowWater,
-				HighWater:   DefaultConnMgrHighWater,
-				GracePeriod: DefaultConnMgrGracePeriod.String(),
-				Type:        "basic",
+				LowWater:    &OptionalInteger{value: GetAddrOfConst(DefaultConnMgrLowWater)},
+				HighWater:   &OptionalInteger{value: GetAddrOfConst(DefaultConnMgrHighWater)},
+				GracePeriod: NewOptionalDuration(DefaultConnMgrGracePeriod),
+				Type:        NewOptionalString("basic"),
 			},
 			EnableAutoRelay: DefaultEnableAutoRelay,
 		},
 		Experimental: Experiments{
 			Libp2pStreamMounting: true, // Enabled for remote api
 			StorageClientEnabled: true,
+			StorageHostEnabled:   true,
 			RemoveOnUnpin:        rmOnUnpin,
 			HostsSyncEnabled:     DefaultHostsSyncEnabled,
+			HostsSyncFlag:        true,
 			HostsSyncMode:        DefaultHostsSyncMode.String(),
+		},
+		ChainInfo: ChainInfo{
+			ChainId: bttcChainID,
 		},
 	}
 
@@ -101,7 +106,7 @@ func Init(out io.Writer, nBitsForKeypair int, keyType string, importKey string, 
 
 // DefaultHostSyncEnabled is the default value for the periodic hosts sync
 // from hub
-const DefaultHostsSyncEnabled = true
+const DefaultHostsSyncEnabled = false
 
 // DefaultHostsSyncMode is the default value for the hosts sync mode
 // from hub
@@ -119,6 +124,10 @@ const DefaultConnMgrLowWater = 600
 // DefaultConnMgrGracePeriod is the default value for the connection managers
 // grace period
 const DefaultConnMgrGracePeriod = time.Second * 20
+
+// DefaultConnMgrType is the default value for the connection managers
+// type.
+const DefaultConnMgrType = "basic"
 
 // DefaultSwarmKey is the default swarm key for mainnet BTFS
 const DefaultSwarmKey = `/key/swarm/psk/1.0.0/
@@ -207,8 +216,9 @@ func flatfsSpec() map[string]interface{} {
 // DefaultServicesConfig returns the default set of configs for external services.
 func DefaultServicesConfig() Services {
 	return Services{
-		StatusServerDomain: "https://status.btfs.io",
-		HubDomain:          "https://hub.btfs.io",
+		//StatusServerDomain: "https://status.btfs.io",
+		OnlineServerDomain: "https://online.btfs.io",
+		HubDomain:          "https://score.btfs.io",
 		EscrowDomain:       "https://escrow.btfs.io",
 		GuardDomain:        "https://guard.btfs.io",
 		ExchangeDomain:     "https://exchange.bt.co",
@@ -223,8 +233,9 @@ func DefaultServicesConfig() Services {
 // DefaultServicesConfigDev returns the default set of configs for dev external services.
 func DefaultServicesConfigDev() Services {
 	return Services{
-		StatusServerDomain: "https://status-dev.btfs.io",
-		HubDomain:          "https://hub-dev.btfs.io",
+		//StatusServerDomain: "https://status-dev.btfs.io",
+		OnlineServerDomain: "https://online-dev.btfs.io",
+		HubDomain:          "https://score-dev.btfs.io",
 		EscrowDomain:       "https://escrow-dev.btfs.io",
 		GuardDomain:        "https://guard-dev.btfs.io",
 		ExchangeDomain:     "https://exchange-dev.bt.co",
@@ -239,8 +250,9 @@ func DefaultServicesConfigDev() Services {
 // DefaultServicesConfigTestnet returns the default set of configs for testnet external services.
 func DefaultServicesConfigTestnet() Services {
 	return Services{
-		StatusServerDomain: "https://status-staging.btfs.io",
-		HubDomain:          "https://hub-staging.btfs.io",
+		//StatusServerDomain: "https://status-staging.btfs.io",
+		OnlineServerDomain: "https://online-staging.btfs.io",
+		HubDomain:          "https://score-staging.btfs.io",
 		EscrowDomain:       "https://escrow-staging.btfs.io",
 		GuardDomain:        "https://guard-staging.btfs.io",
 		ExchangeDomain:     "https://exchange-staging.bt.co",
@@ -303,7 +315,7 @@ func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, 
 
 	// currently storing key unencrypted. in the future we need to encrypt it.
 	// TODO(security)
-	skbytes, err := sk.Bytes()
+	skbytes, err := ci.MarshalPrivateKey(sk)
 	if err != nil {
 		return ident, err
 	}
@@ -317,4 +329,9 @@ func IdentityConfig(out io.Writer, nbits int, keyType string, importKey string, 
 	ident.PeerID = id.Pretty()
 	fmt.Fprintf(out, "peer identity: %s\n", ident.PeerID)
 	return ident, nil
+}
+
+func GetAddrOfConst(i int) *int64 {
+	var r = int64(i)
+	return &r
 }

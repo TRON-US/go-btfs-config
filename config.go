@@ -14,6 +14,7 @@ import (
 
 // Config is used to load ipfs config files.
 type Config struct {
+	ChainInfo ChainInfo // local node's chain info
 	Identity  Identity  // local node's peer identity
 	Datastore Datastore // local node's storage
 	Addresses Addresses // local node's addresses
@@ -28,14 +29,18 @@ type Config struct {
 	AutoNAT   AutoNATConfig
 	Pubsub    PubsubConfig
 	Peering   Peering
-
-	Services Services // External service domains and info
+	DNS       DNS
+	Services  Services // External service domains and info
 
 	Provider     Provider
 	Reprovider   Reprovider
 	Experimental Experiments
 	UI           UI
 	Plugins      Plugins
+
+	Internal Internal // experimental/unstable options
+
+	SimpleMode bool
 }
 
 const (

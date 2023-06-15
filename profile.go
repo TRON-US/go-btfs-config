@@ -229,13 +229,17 @@ functionality - performance of content discovery and data
 fetching may be degraded.
 `,
 		Transform: func(c *Config) error {
-			c.Routing.Type = "dhtclient"
+			c.Routing.Type = NewOptionalString("dhtclient") // TODO: https://github.com/ipfs/kubo/issues/9480
 			c.AutoNAT.ServiceMode = AutoNATServiceDisabled
-			c.Reprovider.Interval = "0"
+			c.Reprovider.Interval = NewOptionalDuration(0)
 
-			c.Swarm.ConnMgr.LowWater = 20
-			c.Swarm.ConnMgr.HighWater = 40
-			c.Swarm.ConnMgr.GracePeriod = time.Minute.String()
+			lowWater := int64(20)
+			highWater := int64(40)
+			gracePeriod := time.Minute
+			c.Swarm.ConnMgr.Type = NewOptionalString("basic")
+			c.Swarm.ConnMgr.LowWater = &OptionalInteger{value: &lowWater}
+			c.Swarm.ConnMgr.HighWater = &OptionalInteger{value: &highWater}
+			c.Swarm.ConnMgr.GracePeriod = &OptionalDuration{&gracePeriod}
 			return nil
 		},
 	},
@@ -258,8 +262,26 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to become a storage host.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDefaultStorageHost(c); err != nil {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
 				return err
+			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.StorageHostEnabled = true
+			c.Experimental.Analytics = true
+			c.Experimental.ReportOnline = true
+			c.Experimental.ReportStatusContract = true
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			if c.Datastore.StorageMax == "10GB" {
+				c.Datastore.StorageMax = "1TB"
+			}
+			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
+			c.ChainInfo = ChainInfo{
+				ChainId: bttcChainID,
 			}
 			return nil
 		},
@@ -290,9 +312,19 @@ fetching may be degraded.
 		Description: `Configures necessary flags and options for node to become a storage repairer.`,
 
 		Transform: func(c *Config) error {
-			if err := transformDefaultStorageRepairer(c); err != nil {
+			bootstrapPeers, err := DefaultBootstrapPeers()
+			if err != nil {
 				return err
 			}
+			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
+			c.Experimental.Libp2pStreamMounting = true
+			c.Experimental.HostRepairEnabled = true
+			c.Experimental.Analytics = true
+			if len(c.Addresses.RemoteAPI) == 0 {
+				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+			}
+			c.Services = DefaultServicesConfig()
+			c.Swarm.SwarmKey = DefaultSwarmKey
 			return nil
 		},
 	},
@@ -318,48 +350,6 @@ fetching may be degraded.
 			return nil
 		},
 	},
-	"storage-challenger": {
-		Description: `Configures necessary flags and options for node to become a storage challenger.`,
-
-		Transform: func(c *Config) error {
-			bootstrapPeers, err := DefaultBootstrapPeers()
-			if err != nil {
-				return err
-			}
-			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
-			c.Experimental.Libp2pStreamMounting = true
-			c.Experimental.HostChallengeEnabled = true
-			c.Experimental.Analytics = true
-			if len(c.Addresses.RemoteAPI) == 0 {
-				c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
-			}
-			c.Services = DefaultServicesConfig()
-			c.Swarm.SwarmKey = DefaultSwarmKey
-			return nil
-		},
-	},
-	"storage-challenger-dev": {
-		Description: `[dev] Configures necessary flags and options for node to become a storage challenger.`,
-
-		Transform: func(c *Config) error {
-			if err := transformDevStorageChallenger(c); err != nil {
-				return err
-			}
-			c.Services = DefaultServicesConfigDev()
-			return nil
-		},
-	},
-	"storage-challenger-testnet": {
-		Description: `[testnet] Configures necessary flags and options for node to become a storage challenger.`,
-
-		Transform: func(c *Config) error {
-			if err := transformDevStorageChallenger(c); err != nil {
-				return err
-			}
-			c.Services = DefaultServicesConfigTestnet()
-			return nil
-		},
-	},
 	"storage-client": {
 		Description: `Configures necessary flags and options for node to pay to store files on the network.`,
 
@@ -371,6 +361,7 @@ fetching may be degraded.
 			c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 			c.Experimental.Libp2pStreamMounting = true
 			c.Experimental.StorageClientEnabled = true
+			c.Experimental.StorageHostEnabled = false
 			c.Experimental.HostsSyncEnabled = true
 			c.Experimental.HostsSyncMode = DefaultHostsSyncMode.String()
 			if len(c.Addresses.RemoteAPI) == 0 {
@@ -405,37 +396,6 @@ fetching may be degraded.
 	},
 }
 
-func transformDefaultStorageHost(c *Config) error {
-	bootstrapPeers, err := DefaultBootstrapPeers()
-	if err != nil {
-		return err
-	}
-	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
-	c.Experimental.Libp2pStreamMounting = true
-	c.Experimental.StorageHostEnabled = true
-	c.Experimental.Analytics = true
-	if len(c.Addresses.RemoteAPI) == 0 {
-		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
-	}
-	if c.Datastore.StorageMax == "10GB" {
-		c.Datastore.StorageMax = "1TB"
-	}
-	c.Services = DefaultServicesConfig()
-	c.Swarm.SwarmKey = DefaultSwarmKey
-	return nil
-}
-
-func transformDefaultStorageRepairer(c *Config) error {
-	c.Experimental.HostRepairEnabled = true
-	c.Experimental.HostsSyncEnabled = true
-	c.Experimental.HostsSyncMode = DefaultHostsSyncMode.String()
-	err := transformDefaultStorageHost(c)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // transformDevStorageHost transforms common host settings among different dev environments
 func transformDevStorageHost(c *Config) error {
 	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
@@ -446,6 +406,8 @@ func transformDevStorageHost(c *Config) error {
 	c.Experimental.Libp2pStreamMounting = true
 	c.Experimental.StorageHostEnabled = true
 	c.Experimental.Analytics = true
+	c.Experimental.ReportOnline = true
+	c.Experimental.ReportStatusContract = true
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
 	}
@@ -454,30 +416,21 @@ func transformDevStorageHost(c *Config) error {
 	}
 	c.Services = DefaultServicesConfigDev()
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
+	c.ChainInfo = ChainInfo{
+		ChainId: bttcTestChainID,
+	}
 	return nil
 }
 
 // transformDevStorageRepairer transforms common repairer settings among different dev environments
 func transformDevStorageRepairer(c *Config) error {
-	c.Experimental.HostRepairEnabled = true
-	c.Experimental.HostsSyncEnabled = true
-	c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
-	err := transformDevStorageHost(c)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// transformDevStorageChallenger transforms common Challenger settings among different dev environments
-func transformDevStorageChallenger(c *Config) error {
 	bootstrapPeers, err := DefaultTestnetBootstrapPeers()
 	if err != nil {
 		return err
 	}
 	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 	c.Experimental.Libp2pStreamMounting = true
-	c.Experimental.HostChallengeEnabled = true
+	c.Experimental.HostRepairEnabled = true
 	c.Experimental.Analytics = true
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
@@ -495,10 +448,14 @@ func transformDevStorageClient(c *Config) error {
 	c.Bootstrap = BootstrapPeerStrings(bootstrapPeers)
 	c.Experimental.Libp2pStreamMounting = true
 	c.Experimental.StorageClientEnabled = true
+	c.Experimental.StorageHostEnabled = false
 	c.Experimental.HostsSyncEnabled = true
 	c.Experimental.HostsSyncMode = DefaultHostsSyncModeDev.String()
 	if len(c.Addresses.RemoteAPI) == 0 {
 		c.Addresses.RemoteAPI = Strings{"/ip4/0.0.0.0/tcp/5101"}
+	}
+	c.ChainInfo = ChainInfo{
+		ChainId: bttcTestChainID,
 	}
 	c.Swarm.SwarmKey = DefaultTestnetSwarmKey
 	return nil
